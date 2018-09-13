@@ -28,8 +28,14 @@ var carrotImageY = 200;
 // The image of a carrot
 var birdImage;
 // The current position of the carrot
-var birdImageX = mouseX;
-var birdImageY = mouseY;
+var birdImageX;
+var birdImageY;
+
+// The image of a carrot
+var clownDown;
+// The current position of the carrot
+var clownDownX;
+var clownDownY;
 
 
 // preload()
@@ -64,6 +70,9 @@ function setup() {
 
   // We'll use imageMode CENTER for this script
   imageMode(CENTER);
+
+  clownDownX = 0;
+  clownDownY = 0;
 }
 
 
@@ -103,6 +112,15 @@ function draw() {
   // A bird in the hand is worth two in the bush
   var birdImageX = mouseX;
   var birdImageY = mouseY;
+
+  //Display the upside down clown image
+  image(clownDown, clownDownX, clownDownY);
+  // Calculate the distance in X and in Y
+  var xDistanceDown = mouseX - clownDownX;
+  var yDistanceDown = mouseY - clownDownY;
+  // Add 1/10th of the x and y distance to the clown's current (x,y) location
+  clownDownX = clownImageY + xDistance/66;
+  clownDownY = clownImageX + yDistance/66;
 
 
 
