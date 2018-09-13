@@ -19,14 +19,21 @@ var feltTextureImage;
 var feltTextureImageX;
 var feltTextureImageY;
 
+// The image of a carrot
+var carrotImage;
+// The current position of the carrot
+var carrotImageX = 0;
+var carrotImageY = 200;
+
 
 // preload()
 //
-// Load the two images we're using before the program starts
+// Load the three images we're using before the program starts
 
 function preload() {
   clownImage = loadImage("assets/images/clown.png");
   feltTextureImage = loadImage("assets/images/black-felt-texture.png");
+  carrotImage = loadImage("assets/images/carrot.png");
 }
 
 
@@ -61,8 +68,13 @@ function draw() {
   // Move the felt image down by increasing its y position
   feltTextureImageY += 1;
 
+  //move the carrot
+  carrotImageX += 1;
+
   // Display the felt image
   image(feltTextureImage,feltTextureImageX,feltTextureImageY);
+  //Display carrot image
+  image(carrotImage,carrotImageX,carrotImageY);
 
   // Move the clown by moving it 1/10th of its current distance from the mouse
 
@@ -75,4 +87,7 @@ function draw() {
 
   // Display the clown image
   image(clownImage,clownImageX,clownImageY);
+
+
+
 }
