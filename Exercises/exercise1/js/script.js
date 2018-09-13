@@ -25,6 +25,12 @@ var carrotImage;
 var carrotImageX = 0;
 var carrotImageY = 200;
 
+// The image of a carrot
+var birdImage;
+// The current position of the carrot
+var birdImageX = mouseX;
+var birdImageY = mouseY;
+
 
 // preload()
 //
@@ -33,7 +39,10 @@ var carrotImageY = 200;
 function preload() {
   clownImage = loadImage("assets/images/clown.png");
   feltTextureImage = loadImage("assets/images/black-felt-texture.png");
+  //load carrot
   carrotImage = loadImage("assets/images/carrot.png");
+  //load bird
+  birdImage = loadImage("assets/images/bird.jpg");
 }
 
 
@@ -87,6 +96,13 @@ function draw() {
 
   // Display the clown image
   image(clownImage,clownImageX,clownImageY);
+
+  // Display the bird image
+  image(birdImage,mouseX,mouseY);
+
+  // A bird in the hand is worth two in the bush
+  var birdImageX = mouseX;
+  var birdImageY = mouseY;
 
 
 
