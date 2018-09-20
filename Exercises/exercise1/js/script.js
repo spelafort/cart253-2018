@@ -6,7 +6,8 @@
 // One moves linearly down the screen.
 // One moves toward the mouse cursor.
 
-
+//text Y location
+var textY;
 // The image of a clown face
 var clownImage;
 // The current position of the clown face
@@ -43,12 +44,17 @@ var clownDownY;
 // Load the three images we're using before the program starts
 
 function preload() {
+  //load upside down clown
+  clownDown = loadImage("assets/images/clowndown.png");
+  //load right side up clown
   clownImage = loadImage("assets/images/clown.png");
   feltTextureImage = loadImage("assets/images/black-felt-texture.png");
   //load carrot
   carrotImage = loadImage("assets/images/carrot.png");
   //load bird
-  birdImage = loadImage("assets/images/bird.jpg");
+  birdImage = loadImage("assets/images/bird.png");
+
+  //I replaced all images for the sake of patriotism but didn't change the file names. Bad practice!
 }
 
 
@@ -82,6 +88,24 @@ function setup() {
 // Moves the clown face toward the current mouse location
 
 function draw() {
+  //set up text
+  fill(0,0,0);
+  textFont('Helvetica');
+  textSize(42);
+  textAlign(CENTER);
+
+
+  //randomize text
+  textY = mouseY + 1;
+  if((textY/2) === 0)
+  {
+      text('on a last chance power drive', 250, textY);
+  } else
+  {
+    text('The highways jammed with broken heroes', 250, textY);
+  }
+
+
 
   // Move the felt image down by increasing its y position
   feltTextureImageY += 1;
@@ -119,8 +143,8 @@ function draw() {
   var xDistanceDown = mouseX - clownDownX;
   var yDistanceDown = mouseY - clownDownY;
   // Add 1/10th of the x and y distance to the clown's current (x,y) location
-  clownDownX = clownImageY + xDistance/66;
-  clownDownY = clownImageX + yDistance/66;
+  clownDownX = clownImageY + xDistance/1000;
+  clownDownY = clownImageX + yDistance/1000;
 
 
 
