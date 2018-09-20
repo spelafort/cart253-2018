@@ -7,10 +7,18 @@ Starter code for exercise 2.
 
 *********************************************************/
 
+//water image
+var waterImage;
+var waterImageX;
+var lighthouseImage;
+
+//avatar boat image
+var boatImage;
+
 // The position and size of our avatar circle
 var avatarX;
 var avatarY;
-var avatarSize = 50;
+var avatarSize = 120;
 
 // The speed and velocity of our avatar circle
 var avatarSpeed = 10;
@@ -36,9 +44,22 @@ var dodges = 0;
 // setup()
 //
 // Make the canvas, position the avatar and anemy
+
+function preload() {
+  //load water images
+  waterImage = loadImage("assets/images/waves.jpg");
+  boatImage = loadImage("assets/images/boat.png");
+  lighthouseImage = loadImage("assets/images/Lighthouse.png");
+
+  //set X for water coordinates
+  waterImageX = 0;
+}
+
 function setup() {
   // Create our playing area
   createCanvas(500,500);
+
+
 
   // Put the avatar in the centre
   avatarX = width/2;
@@ -57,9 +78,17 @@ function setup() {
 // Handle moving the avatar and enemy and checking for dodges and
 // game over situations.
 function draw() {
+  console.log('avatar size is ' + avatarSize);
 
   // A pink background
-  background(255,220,220);
+  //background(100,100,250, 200);
+
+  //create tiling water background
+  imageMode(CENTER);
+  image(waterImage,waterImageX,250);
+  waterImageX += 1;
+
+
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
   avatarVX = 0;
@@ -100,6 +129,9 @@ function draw() {
   if (dist(enemyX,enemyY,avatarX,avatarY) < enemySize/2 + avatarSize/2) {
     // Tell the player they lost
     console.log("YOU LOSE!");
+
+    //reset water
+    image(waterImage,250,250);
     // Reset the enemy's position
     enemyX = 0;
     enemyY = random(0,height);
@@ -113,6 +145,8 @@ function draw() {
     dodges = 0;
   }
 
+
+
   // Check if the avatar has gone off the screen (cheating!)
   if (avatarX < 0 || avatarX > width || avatarY < 0 || avatarY > height) {
     // If they went off the screen they lose in the same way as above.
@@ -124,12 +158,18 @@ function draw() {
     avatarX = width/2;
     avatarY = height/2;
     dodges = 0;
+    //reset water
+    image(waterImage,250,250);
+    waterImageX = 0
   }
 
   // Check if the enemy has moved all the way across the screen
-  if (enemyX > width) {
+  if (enemyX - 250 > width) {
     // This means the player dodged so update its dodge statistic
     dodges = dodges + 1;
+    //reset water
+    image(waterImage,250,250);
+    waterImageX = 0
     // Tell them how many dodges they have made
     console.log(dodges + " DODGES!");
     // Reset the enemy's position to the left at a random height
@@ -138,23 +178,45 @@ function draw() {
     // Increase the enemy's speed and size to make the game harder
     enemySpeed = enemySpeed + enemySpeedIncrease;
     enemySize = enemySize + enemySizeIncrease;
+    // Randomize avatar speed and size
+    avatarSize = random(10,150);
+    avatarSpeed = random(10,15);
+    console.log('avatar size is ' + avatarSize);
+    console.log('avatar speed is ' + avatarSpeed);
+
+    // The speed and velocity of our avatar circle
+    //var avatarSpeed = avatarSpeed + random(-10,10);
+
   }
 
   // Display the current number of successful in the console
   console.log(dodges);
 
-  // The player is black
-  fill(0);
+  // The player is red
+  fill(255,0,0,250);
   // Draw the player as a circle
-  ellipse(avatarX,avatarY,avatarSize,avatarSize);
+  ellipse(avatarX,avatarY,avatarSize*2,avatarSize);
+  //draw player as boatImage
+  imageMode(CENTER);
+  image(boatImage, avatarX+100, avatarY, boatImage.width/2, boatImage.height/2);
 
-  // The enemy is red
-  fill(255,0,0);
-  // Draw the enemy as a circle
+  // Spotlight is yellow
+  fill(255,255,0, 100);
+  // Draw spotlight
+  //
+  triangle(enemyX, enemyY, enemyY, enemyX, 86, 75);
+
+
+
+  // Spotlight is yellow
+  fill(255,255,0);
   ellipse(enemyX,enemyY,enemySize,enemySize);
+  imageMode(CORNER);
+  image(lighthouseImage,enemyX-120,enemyY -20);
+  //rotate(360, [z]);
 
   //tell me more about your dodges
-  fill(0,0,0);
+  fill(255,255,255);
   textFont('Helvetica');
   textAlign(CENTER);
   if(dodges <= 3)
@@ -168,10 +230,12 @@ function draw() {
   } else if (dodges >7 && dodges < 10)
   {
     textSize(20);
-    text(dodges + 'I am CRYING AT THE DODGES', 250, 250);
-  } else if (dodges === 10)
+    text(dodges + '  DODGES AND I AM CRYING AT THE DODGES', 250, 250);
+  } else if (dodges >= 10)
   {
-    background
+    background(0,0,0);
+    textSize(66);
+    text('YOU WIN', 250, 250);
   }
 
 
