@@ -1,3 +1,2 @@
 # cart253-2018
-WHATEVAH WHATEVAH
-ctrl + shift + m to view markdown
+https://github.com/spelafort/cart253-2018/tree/master/Exercises
