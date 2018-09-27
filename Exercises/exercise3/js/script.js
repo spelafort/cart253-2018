@@ -105,8 +105,8 @@ function setup() {
   }
 
   // Once we've displayed all decoys, we choose a location for the target
-  targetX = randomizeValueWithin(0,windowWidth/6);
-  targetY = randomizeValueWithin(0,windowHeight/3);
+  targetX = randomizeValueWithin(0,windowWidth/6, width);
+  targetY = randomizeValueWithin(0,windowHeight/3, height);
 
   console.log('targetX is ' + targetX)
   console.log('target X should be bigger than ' + (windowWidth/6))
@@ -128,6 +128,7 @@ function draw() {
     noStroke();
     fill(random(255));
     // Tell them they won!
+    fleeDogFlee();
     text("YOU WINNED!",width/2,height/2);
 
     noFill();
@@ -181,12 +182,12 @@ function setupUI(){
 //randomizeValueWithin
 //
 //Randomizes within a given range
-function randomizeValueWithin(value,min)
+function randomizeValueWithin(value,min,max)
 {
 
   while(value<min)
   {
-    value = random(min+(targetImage.width),width);
+    value = random(min+(targetImage.width),max);
 
   }
 
@@ -195,7 +196,28 @@ function randomizeValueWithin(value,min)
 
 //fleeDogFlee
 //
-//
-fleeDogFlee(){
-  
+//Sets the win screen
+function fleeDogFlee(){
+  background("#ffff00");
+  var x;
+var y;
+var tx;
+var ty;
+a=0;
+
+  tx = random(0,1000);
+  ty = random(0,1000);
+
+while(a<100)
+{
+  x = width * noise(tx);
+  y = height * noise(ty);
+
+  tx += 0.01;
+  ty += 0.01;
+
+  image(targetImage,x,y);
+  a++;
+}
+
 }
