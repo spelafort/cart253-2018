@@ -57,6 +57,7 @@ function preload() {
 // Creates the canvas, sets basic modes, draws correct number
 // of decoys in random positions, then the target
 function setup() {
+
   createCanvas(windowWidth,windowHeight);
   background("#ffff00");
   imageMode(CENTER);
@@ -146,5 +147,26 @@ function mousePressed() {
 //
 //Sets up the 'have you seen me' poster for the Dog
 function setupUI(){
-  rect(30, 20, 55, 55, 20, 15, 10, 5);
+  //draw outer rectangle
+  stroke(77,235,161);
+  strokeWeight(4);
+  rectMode(CORNERS);
+  fill(61,186,149);
+  rect(0,0, (windowWidth/6), (windowHeight/3));
+
+  //draw internal rectangle
+  fill(183,209,163);
+  strokeWeight(2);
+  rect(0,0, (windowWidth/6), (windowHeight/4));
+
+  //draw the Dog
+  imageMode(CORNERS);
+  image(targetImage,0,0,(windowWidth/7),(windowHeight/5));
+
+  //have you seen me text
+  fill(0, 0, 0);
+  textSize(30);
+  textAlign(CENTER);
+  text('HV U C DOG?', (windowWidth/6)/2, ((windowHeight/3)-(windowHeight/4))/2+(windowHeight/4));
+
 }
