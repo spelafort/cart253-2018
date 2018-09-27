@@ -105,8 +105,15 @@ function setup() {
   }
 
   // Once we've displayed all decoys, we choose a location for the target
-  targetX = random(0,width);
-  targetY = random(0,height);
+  targetX = randomizeValueWithin(0,windowWidth/6);
+  targetY = randomizeValueWithin(0,windowHeight/3);
+
+  console.log('targetX is ' + targetX)
+  console.log('target X should be bigger than ' + (windowWidth/6))
+
+  console.log('targetY is ' + targetY)
+  console.log('target X should be bigger than ' + (windowHeight/3))
+
   // And draw it (this means it will always be on top)
   image(targetImage,targetX,targetY);
 }
@@ -169,4 +176,26 @@ function setupUI(){
   textAlign(CENTER);
   text('HV U C DOG?', (windowWidth/6)/2, ((windowHeight/3)-(windowHeight/4))/2+(windowHeight/4));
 
+}
+
+//randomizeValueWithin
+//
+//Randomizes within a given range
+function randomizeValueWithin(value,min)
+{
+
+  while(value<min)
+  {
+    value = random(min+(targetImage.width),width);
+
+  }
+
+  return value
+}
+
+//fleeDogFlee
+//
+//
+fleeDogFlee(){
+  
 }
