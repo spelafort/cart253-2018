@@ -228,23 +228,4 @@ function fleeDogFlee(numDogs){
 
   }
 
-var tx;
-var ty;
-a=100;
-
-  tx = random(0,1000);
-  ty = random(0,1000);
-
-while(a<numDogs)
-{
-  x = width * noise(tx);
-  y = height * noise(ty);
-
-  tx += 0.01;
-  ty += 0.01;
-
-  image(targetImage,x,y);
-  console.log('X is ' + x);
-  console.log('Y is ' + y);
-}
 }
