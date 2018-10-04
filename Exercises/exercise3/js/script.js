@@ -57,6 +57,8 @@ function preload() {
 // Creates the canvas, sets basic modes, draws correct number
 // of decoys in random positions, then the target
 function setup() {
+  //variable will control the random size increase or decrease of the dog
+  var changeSizeRatioOfSausageDog = random(0.7,1.3)
 
   createCanvas(windowWidth,windowHeight);
   background("#ffff00");
@@ -115,26 +117,29 @@ function setup() {
   console.log('target X should be bigger than ' + (windowHeight/3))
 
   // And draw it (this means it will always be on top)
-  image(targetImage,targetX,targetY);
+  //randomize size of sausage dog
+  image(targetImage,targetX,targetY, targetImage.width*changeSizeRatioOfSausageDog, targetImage.height*changeSizeRatioOfSausageDog);
+
+  setupUI();
+
 }
 
 function draw() {
-  setupUI();
   if (gameOver) {
     // Prepare our typography
     textFont("Helvetica");
-    textSize(128);
+    textSize(50);
     textAlign(CENTER,CENTER);
     noStroke();
     fill(random(255));
     // Tell them they won!
-    fleeDogFlee();
-    text("YOU WINNED!",width/2,height/2);
+    fleeDogFlee(10);
+    text("WRONG, IT WAS ONLY EVER ALWAYS DOG",width/2,height/2);
 
     noFill();
     stroke(random(255));
     strokeWeight(10);
-    ellipse(targetX,targetY,targetImage.width,targetImage.height);
+    ellipse(targetX,targetY,targetImage.width*random(0.7,1.3),targetImage.height*random(0.7,1.3));
   }
 }
 
@@ -197,11 +202,25 @@ function randomizeValueWithin(value,min,max)
 //fleeDogFlee
 //
 //Sets the win screen
-function fleeDogFlee(){
-  background("#ffff00");
-  var x;
-var y;
-var tx;
+function fleeDogFlee(numDogs){
+  background("#000000");
+
+  image(targetImage,0,0,windowWidth,windowHeight)
+  image(targetImage,0,0,windowWidth,windowHeight)
+
+  for (var i = 0; i < numDogs; i++) {
+    var x = random(0,width);
+    var y = random(0,height);
+    image(targetImage,x,y,windowWidth,windowHeight);
+  }
+
+  for (var i = 0; i < numDogs; i++) {
+    var x = random(0,width);
+    var y = random(0,height);
+    image(targetImage,x,y,targetImage.width/10,targetImage.height/10);
+  }
+
+/*var tx;
 var ty;
 a=0;
 
@@ -217,7 +236,8 @@ while(a<100)
   ty += 0.01;
 
   image(targetImage,x,y);
-  a++;
-}
-
+  console.log('X is ' + x);
+  console.log('Y is ' + y);
+  */
+//a++;
 }
