@@ -187,6 +187,7 @@ function setupUI(){
 //randomizeValueWithin
 //
 //Randomizes within a given range
+//Note that I have no idea why this function is still glitching out. This is very mysterious to me even after looking through all of this again!
 function randomizeValueWithin(value,min,max)
 {
 
@@ -204,13 +205,19 @@ function randomizeValueWithin(value,min,max)
 //Sets the win screen
 function fleeDogFlee(numDogs){
   background("#000000");
+  //dog velocity
 
-  image(targetImage,0,0,windowWidth,windowHeight)
-  image(targetImage,0,0,windowWidth,windowHeight)
+  //image(targetImage,0,0,windowWidth,windowHeight)
 
   for (var i = 0; i < numDogs; i++) {
+    //dog position
     var x = random(0,width);
     var y = random(0,height);
+    //dog velocity
+    var vx = vx + 1;
+    var vy = vy + 2;
+
+
     image(targetImage,x,y,windowWidth,windowHeight);
   }
 
@@ -218,16 +225,17 @@ function fleeDogFlee(numDogs){
     var x = random(0,width);
     var y = random(0,height);
     image(targetImage,x,y,targetImage.width/10,targetImage.height/10);
+
   }
 
-/*var tx;
+var tx;
 var ty;
-a=0;
+a=100;
 
   tx = random(0,1000);
   ty = random(0,1000);
 
-while(a<100)
+while(a<numDogs)
 {
   x = width * noise(tx);
   y = height * noise(ty);
@@ -238,6 +246,5 @@ while(a<100)
   image(targetImage,x,y);
   console.log('X is ' + x);
   console.log('Y is ' + y);
-  */
-//a++;
+}
 }
