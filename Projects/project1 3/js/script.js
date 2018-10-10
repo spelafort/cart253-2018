@@ -9,6 +9,7 @@ Physics-based movement, keyboard controls, health/stamina,
 sprinting, random movement, screen wrap.
 
 ******************************************************/
+let t = 0; // time variable
 
 // Track whether the game is over
 var gameOver = false;
@@ -16,6 +17,7 @@ var gameOver = false;
 //Images of prey and player
 var playerImage;
 var preyImage;
+var waveImage;
 
 //Time variables for movePrey function
 var tx;
@@ -56,6 +58,7 @@ function preload(){
   //loads images in preload for prey and player
   preyImage = loadImage("assets/images/Seal2.png");
   playerImage = loadImage("assets/images/Shark2.png");
+  waveImage = loadImage("assets/images/wave.png");
 }
 // setup()
 //
@@ -71,6 +74,27 @@ function setup() {
 
   setupPrey();
   setupPlayer();
+}
+
+function makeWaves(){
+  //make a x and y grid of ellipses
+  for (let x = 0; x <= width; x = x + 60) {
+    for (let y = 0; y <= height; y = y + 60) {
+      // starting point of each circle depends on mouse position
+      let xAngle = map(playerX, 0, width, -4 * PI, 4 * PI, true);
+      let yAngle = map(playerY, 0, height, -4 * PI, 4 * PI, true);
+      // and also varies based on the particle's location
+      let angle = xAngle * (x / width) + yAngle * (y / height);
+
+      // each particle moves in a circle
+      let myX = x + 20 * cos(2 * PI * t + angle);
+      let myY = y + 20 * sin(2 * PI * t + angle);
+
+      image(waveImage, myX, myY, 6,6); // draw particle
+    }
+  }
+
+  t = t + 0.01; // update time
 }
 
 // setupPrey()
@@ -101,7 +125,8 @@ function setupPlayer() {
 // displays the two agents.
 // When the game is over, shows the game over screen.
 function draw() {
-  background(0,84,112);
+  background(0,84,112,222);
+  makeWaves();
 
   if (!gameOver) {
     handleInput();
@@ -276,19 +301,19 @@ function movePrey() {
   var d = dist(playerX,playerY,preyX,preyY);
   // Check if player is close
   if (d < playerRadius*2 + preyRadius*2) {
-    preyMaxSpeed = 8;
+    preyMaxSpeed = 10;
 
     //matches prey to player trajectory
     if(playerVX > 0){
-      preyVX = abs(preyVX)
+      preyVX = -abs(playerVX)
     }else if(playerVX <0){
-      preyVX = -abs(preyVX)
+      preyVX = -abs(playerVX)
     }
 
     if(playerVY > 0){
-          preyVY = abs(preyVY)
+          preyVY = -abs(playerVY)
         }else if(playerVY <0){
-          preyVY = -abs(preyVY)
+          preyVY = abs(playerVY)
         }
 }else if (d > playerRadius*2 + preyRadius*2){
   preyMaxSpeed = 4;
@@ -302,6 +327,7 @@ function drawPrey() {
 
   /*fill(preyFill,preyHealth);
   ellipse(preyX,preyY,preyRadius*2);*/
+    tint(255,255);
   image(preyImage,preyX-preyRadius,preyY-preyRadius,preyRadius*2,preyRadius*2);
 
 }
