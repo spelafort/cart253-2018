@@ -13,6 +13,10 @@ sprinting, random movement, screen wrap.
 // Track whether the game is over
 var gameOver = false;
 
+//Images of prey and player
+var playerImage;
+var preyImage;
+
 //Time variables for movePrey function
 var tx;
 var ty;
@@ -20,7 +24,7 @@ var ty;
 // Player position, size, velocity
 var playerX;
 var playerY;
-var playerRadius = 25;
+var playerRadius = 50;
 var playerVX = 0;
 var playerVY = 0;
 var playerMaxSpeed = 2;
@@ -33,7 +37,7 @@ var playerFill = 50;
 // Prey position, size, velocity
 var preyX;
 var preyY;
-var preyRadius = 25;
+var preyRadius = 33;
 var preyVX;
 var preyVY;
 var preyMaxSpeed = 4;
@@ -48,6 +52,11 @@ var eatHealth = 10;
 // Number of prey eaten during the game
 var preyEaten = 0;
 
+function preload(){
+  //loads images in preload for prey and player
+  preyImage = loadImage("assets/images/Seal2.png");
+  playerImage = loadImage("assets/images/Shark2.png");
+}
 // setup()
 //
 // Sets up the basic elements of the game
@@ -92,7 +101,7 @@ function setupPlayer() {
 // displays the two agents.
 // When the game is over, shows the game over screen.
 function draw() {
-  background(100,100,200);
+  background(0,84,112);
 
   if (!gameOver) {
     handleInput();
@@ -290,8 +299,11 @@ function movePrey() {
 //
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
+
   fill(preyFill,preyHealth);
   ellipse(preyX,preyY,preyRadius*2);
+  image(preyImage,preyX-preyRadius,preyY-preyRadius,preyRadius*2,preyRadius*2);
+
 }
 
 // drawPlayer()
@@ -300,6 +312,7 @@ function drawPrey() {
 function drawPlayer() {
   fill(playerFill,playerHealth);
   ellipse(playerX,playerY,playerRadius*2);
+  image(playerImage, playerX-playerRadius, playerY-playerRadius, playerRadius*2,playerRadius*2);
 }
 
 // showGameOver()
