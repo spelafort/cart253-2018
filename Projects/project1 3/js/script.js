@@ -268,7 +268,19 @@ function movePrey() {
   // Check if player is close
   if (d < playerRadius*2 + preyRadius*2) {
     preyMaxSpeed = 8;
-    
+
+    //matches prey to player trajectory
+    if(playerVX > 0){
+      preyVX = abs(preyVX)
+    }else if(playerVX <0){
+      preyVX = -abs(preyVX)
+    }
+
+    if(playerVY > 0){
+          preyVY = abs(preyVY)
+        }else if(playerVY <0){
+          preyVY = -abs(preyVY)
+        }
 }else if (d > playerRadius*2 + preyRadius*2){
   preyMaxSpeed = 4;
 }
