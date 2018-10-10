@@ -300,18 +300,19 @@ function movePrey() {
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
 
-  fill(preyFill,preyHealth);
-  ellipse(preyX,preyY,preyRadius*2);
+  /*fill(preyFill,preyHealth);
+  ellipse(preyX,preyY,preyRadius*2);*/
   image(preyImage,preyX-preyRadius,preyY-preyRadius,preyRadius*2,preyRadius*2);
 
 }
 
 // drawPlayer()
 //
-// Draw the player as an ellipse with alpha based on health
+// Draw the player as an image with alpha based on health
 function drawPlayer() {
-  fill(playerFill,playerHealth);
-  ellipse(playerX,playerY,playerRadius*2);
+  /*fill(playerFill,playerHealth);
+  ellipse(playerX,playerY,playerRadius*2);*/
+  tint(255,playerHealth);
   image(playerImage, playerX-playerRadius, playerY-playerRadius, playerRadius*2,playerRadius*2);
 }
 
