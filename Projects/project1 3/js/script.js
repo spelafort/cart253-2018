@@ -262,6 +262,16 @@ function movePrey() {
   else if (preyY > height) {
     preyY -= height;
   }
+
+  // Get distance of player to prey
+  var d = dist(playerX,playerY,preyX,preyY);
+  // Check if player is close
+  if (d < playerRadius*2 + preyRadius*2) {
+    preyMaxSpeed = 8;
+    
+}else if (d > playerRadius*2 + preyRadius*2){
+  preyMaxSpeed = 4;
+}
 }
 
 // drawPrey()
