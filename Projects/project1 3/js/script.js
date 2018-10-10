@@ -128,6 +128,24 @@ function handleInput() {
   else {
     playerVY = 0;
   }
+
+  // Check for sprinting
+  if (keyIsDown(SHIFT) && (keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW) || keyIsDown(UP_ARROW) || keyIsDown(DOWN_ARROW))) {
+    //Logs out to console
+    console.log("you're running");
+    //calls the update health method again, doubling player health reduction
+    updateHealth();
+
+    //Checks current value is greater than zero; player needs a speed to sprint
+    if(abs(playerVX) > 0){
+      playerVX = 2*playerVX;
+    }
+    if(abs(playerVY) > 0){
+      playerVY = 2*playerVY;
+    }
+
+
+  }
 }
 
 // movePlayer()
@@ -202,14 +220,24 @@ function movePrey() {
   // Change the prey's velocity at random intervals
   // random() will be < 0.05 5% of the time, so the prey
   // will change direction on 5% of frames
-  if (random() < 0.05) {
-    // Set velocity based on random values to get a new direction
+  /*if (random() < 0.05) {
+    /// Set velocity based on random values to get a new direction
     // and speed of movement
     // Use map() to convert from the 0-1 range of the random() function
     // to the appropriate range of velocities for the prey
     preyVX = map(random(),0,1,-preyMaxSpeed,preyMaxSpeed);
     preyVY = map(random(),0,1,-preyMaxSpeed,preyMaxSpeed);
-  }
+  }*/
+
+  //Time variables for movePrey function
+  var tx = random(0,100);
+  var ty = random(0,100);
+
+  preyVX = map(noise(tx),0,1,-preyMaxSpeed, preyMaxSpeed);
+  preyVY = map(noise(ty),0,1,-preyMaxSpeed, preyMaxSpeed);
+
+  tx += random(0,0.01);
+  ty += random(0,0.01);
 
   // Update prey position based on velocity
   preyX += preyVX;
