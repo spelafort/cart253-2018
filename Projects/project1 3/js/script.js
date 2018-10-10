@@ -13,6 +13,10 @@ sprinting, random movement, screen wrap.
 // Track whether the game is over
 var gameOver = false;
 
+//Time variables for movePrey function
+var tx;
+var ty;
+
 // Player position, size, velocity
 var playerX;
 var playerY;
@@ -48,6 +52,10 @@ var preyEaten = 0;
 //
 // Sets up the basic elements of the game
 function setup() {
+  //Randomize time variables for movePrey function at runtime
+  tx = random(0,2);
+  ty = random(0,3);
+
   createCanvas(500,500);
 
   noStroke();
@@ -229,15 +237,12 @@ function movePrey() {
     preyVY = map(random(),0,1,-preyMaxSpeed,preyMaxSpeed);
   }*/
 
-  //Time variables for movePrey function
-  var tx = random(0,100);
-  var ty = random(0,100);
-
+  //set velocity based on perlin noise
   preyVX = map(noise(tx),0,1,-preyMaxSpeed, preyMaxSpeed);
   preyVY = map(noise(ty),0,1,-preyMaxSpeed, preyMaxSpeed);
 
   tx += random(0,0.01);
-  ty += random(0,0.01);
+  ty += random(0.01);
 
   // Update prey position based on velocity
   preyX += preyVX;
