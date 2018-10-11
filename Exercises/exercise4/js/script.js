@@ -4,6 +4,11 @@
 // A primitive implementation of Pong with no scoring system
 // just the ability to play the game with the keyboard.
 
+//NEW//
+// create array to store static paddles
+var staticPaddles = [];
+//END NEW
+
 // Game colors
 var bgColor = 0;
 var fgColor = 255;
@@ -39,7 +44,10 @@ var leftPaddle = {
   vy: 0,
   speed: 5,
   upKeyCode: 87, // The key code for W
-  downKeyCode: 83 // The key code for S
+  downKeyCode: 83, // The key code for S
+  ///NEW///
+  leftScore: 0
+  ///END NEW///
 }
 
 // RIGHT PADDLE
@@ -55,7 +63,10 @@ var rightPaddle = {
   vy: 0,
   speed: 5,
   upKeyCode: 38, // The key code for the UP ARROW
-  downKeyCode: 40 // The key code for the DOWN ARROW
+  downKeyCode: 40, // The key code for the DOWN ARROW
+  ///NEW///
+  rightScore: 0
+  ///END NEW///
 }
 
 // A variable to hold the beep sound we will play on bouncing
@@ -111,6 +122,7 @@ function setupBall() {
 //
 // Calls the appropriate functions to run the game
 function draw() {
+
   // Fill the background
   background(bgColor);
 
@@ -139,6 +151,14 @@ function draw() {
   displayPaddle(leftPaddle);
   displayPaddle(rightPaddle);
   displayBall();
+
+  ///NEW//
+  //goes through array of static paddles, displays them
+var staticPaddlesLength = staticPaddles.length;
+console.log(staticPaddlesLength);
+for (var i = 0; i < staticPaddles.length; i++) {
+    staticPaddles[i].display();
+}
 }
 
 
@@ -208,6 +228,7 @@ function handleBallWallCollision() {
     // Play our bouncing sound effect by rewinding and then playing
     beepSFX.currentTime = 0;
     beepSFX.play();
+
   }
 }
 
@@ -238,6 +259,20 @@ function handleBallPaddleCollision(paddle) {
       // Play our bouncing sound effect by rewinding and then playing
       beepSFX.currentTime = 0;
       beepSFX.play();
+      staticPaddles.push({
+        x: ball.x,
+        y: ball.y,
+        w: 20,
+        h: 70,
+        display: function() {
+          push();
+          fill(255,0,0);
+         rect(this.x,this.y,this.w,this.h);
+         console.log(this.x);
+         console.log(this.y);
+         pop();
+       },
+     });
     }
   }
 }
