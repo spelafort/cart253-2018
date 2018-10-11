@@ -9,11 +9,14 @@ Physics-based movement, keyboard controls, health/stamina,
 sprinting, random movement, screen wrap.
 
 ******************************************************/
-let t = 0; // time variable
+////////////// NEW ///////////
+// time variable for makewaves function
+let t = 0;
 
 // Track whether the game is over
 var gameOver = false;
 
+////////////// END NEW ///////////
 //Images of prey and player
 var playerImage;
 var preyImage;
@@ -42,7 +45,7 @@ var preyY;
 var preyRadius = 33;
 var preyVX;
 var preyVY;
-var preyMaxSpeed = 4;
+var preyMaxSpeed = 3;
 // Prey health
 var preyHealth;
 var preyMaxHealth = 100;
@@ -135,7 +138,7 @@ function draw() {
     movePlayer();
     movePrey();
 
-    updateHealth();
+    updateHealth(0.1);
     checkEating();
 
     drawPrey();
@@ -176,15 +179,15 @@ function handleInput() {
   if (keyIsDown(SHIFT) && (keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW) || keyIsDown(UP_ARROW) || keyIsDown(DOWN_ARROW))) {
     //Logs out to console
     console.log("you're running");
-    //calls the update health method again, doubling player health reduction
-    updateHealth();
+    //calls the update health method thrice, quadrupling player health reduction
+    updateHealth(3);
 
     //Checks current value is greater than zero; player needs a speed to sprint
     if(abs(playerVX) > 0){
-      playerVX = 2*playerVX;
+      playerVX = 4*playerVX;
     }
     if(abs(playerVY) > 0){
-      playerVY = 2*playerVY;
+      playerVY = 4*playerVY;
     }
 
 
@@ -220,9 +223,9 @@ function movePlayer() {
 //
 // Reduce the player's health (every frame)
 // Check if the player is dead
-function updateHealth() {
+function updateHealth(loss) {
   // Reduce player health, constrain to reasonable range
-  playerHealth = constrain(playerHealth - 0.5,0,playerMaxHealth);
+  playerHealth = constrain(playerHealth - loss,0,playerMaxHealth);
   // Check if the player is dead
   if (playerHealth === 0) {
     // If so, the game is over
@@ -272,17 +275,6 @@ function movePrey() {
     preyVY = map(random(),0,1,-preyMaxSpeed,preyMaxSpeed);
   }*/
 
-  //set velocity based on perlin noise
-  preyVX = map(noise(tx),0,1,-preyMaxSpeed, preyMaxSpeed);
-  preyVY = map(noise(ty),0,1,-preyMaxSpeed, preyMaxSpeed);
-
-  tx += random(0,0.01);
-  ty += random(0.01);
-
-  // Update prey position based on velocity
-  preyX += preyVX;
-  preyY += preyVY;
-
   // Screen wrapping
   if (preyX < 0) {
     preyX += width;
@@ -298,27 +290,58 @@ function movePrey() {
     preyY -= height;
   }
 
+
   // Get distance of player to prey
   var d = dist(playerX,playerY,preyX,preyY);
   // Check if player is close
   if (d < playerRadius*2 + preyRadius*2) {
-    preyMaxSpeed = 10;
 
-    //matches prey to player trajectory
-    if(playerVX > 0){
-      preyVX = -abs(playerVX)
-    }else if(playerVX <0){
-      preyVX = -abs(playerVX)
+//test boundary condition so that prey wraps properly; should be controlled only by perlin noise past boundary
+if(preyX < 0.1*width == false || preyX > 0.9*width == false || preyY < 0.1*height == false ||preyY > 0.9*height == false){
+    //matches prey to player trajectory in a desparate attempt to flee
+    if(playerVX > 0 && preyVX < 0){
+      preyVX = -preyVX*2;
+      preyVX = constrain(preyVX,-preyMaxSpeed, preyMaxSpeed);
+    }else if(playerVX <0 && preyVX > 0){
+      preyVX = -preyVX*2;
+      preyVX = constrain(preyVX,-preyMaxSpeed, preyMaxSpeed);
+    }else if(playerVX > 0 && preyVX > 0){
+      preyVX = preyVX*2;
+      preyVX = constrain(preyVX,-preyMaxSpeed, preyMaxSpeed);
+    } else if(playerVY < 0 && preyVY < 0){
+      preyVX = preyVX*2;
+      preyVX = constrain(preyVX,-preyMaxSpeed, preyMaxSpeed);
     }
 
-    if(playerVY > 0){
-          preyVY = -abs(playerVY)
-        }else if(playerVY <0){
-          preyVY = abs(playerVY)
-        }
-}else if (d > playerRadius*2 + preyRadius*2){
-  preyMaxSpeed = 4;
+    if(playerVY > 0 && preyVY < 0){
+      preyVY = -preyVY*2;
+      preyVY = constrain(preyVY,-preyMaxSpeed, preyMaxSpeed);
+    }else if(playerVY <0 && preyVY > 0){
+      preyVY = -preyVY*2;
+      preyVY =  constrain(preyVY,-preyMaxSpeed, preyMaxSpeed);
+    }else if(playerVY > 0 && preyVY > 0){
+      preyVY = preyVY*2;
+      preyVY = constrain(preyVY,-preyMaxSpeed, preyMaxSpeed);
+    } else if(playerVY < 0 && preyVY < 0){
+      preyVY = preyVY*2;
+      preyVY = constrain(preyVY,-preyMaxSpeed, preyMaxSpeed);
+    }
+  }
+  }else{
+
+  tx += random(0,0.01);
+  ty += random(0,0.01);
+
+  //set velocity based on perlin noise
+  preyVX = constrain(preyVX+map(noise(tx),0,1,-0.001,0.001),-preyMaxSpeed, preyMaxSpeed);
+  preyVY = constrain(preyVY+map(noise(ty),0,1,-0.001,0.001),-preyMaxSpeed, preyMaxSpeed);
 }
+
+// Update prey position based on velocity
+preyX += preyVX;
+preyY += preyVY;
+constrain(preyVY,-preyMaxSpeed, preyMaxSpeed);
+constrain(preyVX,-preyMaxSpeed, preyMaxSpeed);
 }
 
 // drawPrey()
@@ -326,8 +349,8 @@ function movePrey() {
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
 
-  /*fill(preyFill,preyHealth);
-  ellipse(preyX,preyY,preyRadius*2);*/
+  fill(preyFill,preyHealth);
+  ellipse(preyX,preyY,preyRadius*2);
     tint(255,255);
   image(preyImage,preyX-preyRadius,preyY-preyRadius,preyRadius*2,preyRadius*2);
 
@@ -337,8 +360,8 @@ function drawPrey() {
 //
 // Draw the player as an image with alpha based on health
 function drawPlayer() {
-  /*fill(playerFill,playerHealth);
-  ellipse(playerX,playerY,playerRadius*2);*/
+  fill(playerFill,playerHealth);
+  ellipse(playerX,playerY,playerRadius*2);
   tint(255,playerHealth);
   image(playerImage, playerX-playerRadius, playerY-playerRadius, playerRadius*2,playerRadius*2);
 }
@@ -351,7 +374,7 @@ function showGameOver() {
   textAlign(CENTER,CENTER);
   fill(0);
   var gameOverText = "GAME OVER\n";
-  gameOverText += "You ate " + preyEaten + " prey\n";
-  gameOverText += "before you died."
+  gameOverText += "Chubby shark ate " + preyEaten + " seals\n";
+  gameOverText += "before he died alone in pizzatown."
   text(gameOverText,width/2,height/2);
 }
