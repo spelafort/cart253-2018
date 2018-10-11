@@ -77,12 +77,13 @@ function setup() {
 }
 
 function makeWaves(){
-  //make a x and y grid of ellipses
+  //mostly stolen from official p5 example library; I understand the code if not all of the math
+  //make a x and y grid of waves
   for (let x = 0; x <= width; x = x + 60) {
     for (let y = 0; y <= height; y = y + 60) {
-      // starting point of each circle depends on mouse position
-      let xAngle = map(playerX, 0, width, -4 * PI, 4 * PI, true);
-      let yAngle = map(playerY, 0, height, -4 * PI, 4 * PI, true);
+      // starting point of each circle depends on shark
+      let xAngle = map(playerX, 0, width, -4 * PI, 2 * PI, true);
+      let yAngle = map(playerY, 0, height, -4 * PI, 2 * PI, true);
       // and also varies based on the particle's location
       let angle = xAngle * (x / width) + yAngle * (y / height);
 
