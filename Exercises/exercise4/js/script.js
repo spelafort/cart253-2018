@@ -127,6 +127,7 @@ function draw() {
   ///checks if there is a game winner over 10points
   ///
   if(leftPaddle.leftScore < 10 || rightPaddle.rightScore <10){
+
     // Fill the background
     background(bgColor);
 
@@ -177,7 +178,7 @@ function draw() {
     // Display the paddles and ball
     displayPaddle(leftPaddle);
     displayPaddle(rightPaddle);
-    displayBall();  
+    displayBall();
 
     textFont("Helvetica");
     textSize(50);
@@ -193,10 +194,7 @@ function draw() {
     for (var i = 0; i < staticPaddles.length; i++) {
         staticPaddles[i].display(255*20,255*20);
       }
-  /*//checks for static paddles ball collision
-  for (var j = 0; j < staticPaddlesLength; j++){
-    handleBallPaddleCollision(staticPaddles[j]);
-  }*/
+
 
   }
 
