@@ -4,11 +4,6 @@
 // A primitive implementation of Pong with no scoring system
 // just the ability to play the game with the keyboard.
 
-//NEW//
-// create array to store static paddles
-var staticPaddles = [];
-//END NEW
-
 // Game colors
 var bgColor = 0;
 var fgColor = 255;
@@ -23,7 +18,7 @@ var ball = {
   size: 20,
   vx: 0,
   vy: 0,
-  speed: 4
+  speed: 5
 }
 
 // PADDLES
@@ -45,9 +40,9 @@ var leftPaddle = {
   speed: 5,
   upKeyCode: 87, // The key code for W
   downKeyCode: 83, // The key code for S
-  ///NEW///
-  leftScore: 0
-  ///END NEW///
+  //NEW//
+  score: 0
+  //END NEW//
 }
 
 // RIGHT PADDLE
@@ -64,9 +59,9 @@ var rightPaddle = {
   speed: 5,
   upKeyCode: 38, // The key code for the UP ARROW
   downKeyCode: 40, // The key code for the DOWN ARROW
-  ///NEW///
-  rightScore: 0
-  ///END NEW///
+  //NEW//
+  score: 0
+  //END NEW//
 }
 
 // A variable to hold the beep sound we will play on bouncing
@@ -118,12 +113,10 @@ function setupBall() {
   ball.vy = ball.speed;
 }
 
-
 // draw()
 //
 // Calls the appropriate functions to run the game
 function draw() {
-
   // Fill the background
   background(bgColor);
 
@@ -152,21 +145,6 @@ function draw() {
   displayPaddle(leftPaddle);
   displayPaddle(rightPaddle);
   displayBall();
-
-  ///NEW//
-  //goes through array of static paddles, displays them
-var staticPaddlesLength = staticPaddles.length;
-console.log(staticPaddlesLength);
-for (var i = 0; i < staticPaddles.length; i++) {
-    staticPaddles[i].display(leftPaddle.leftScore*20,rightPaddle.rightScore*20);
-}
-//BROKEN!
-/*//checks for static paddles ball collision
-for (var j = 0; j < staticPaddlesLength; j++){
-  handleBallPaddleCollision(staticPaddles[j]);
-}*/
-
-///END NEW///
 }
 
 
@@ -236,7 +214,6 @@ function handleBallWallCollision() {
     // Play our bouncing sound effect by rewinding and then playing
     beepSFX.currentTime = 0;
     beepSFX.play();
-
   }
 }
 
@@ -267,42 +244,8 @@ function handleBallPaddleCollision(paddle) {
       // Play our bouncing sound effect by rewinding and then playing
       beepSFX.currentTime = 0;
       beepSFX.play();
-
-      ///NEW///
-      //makes a static paddle on collision
-        staticPaddles.push({
-          x: ball.x,
-          y: ball.y,
-          w: 10,
-          h: 70,
-          display: function(a,b) {
-            push();
-            fill(a+b,a,b);
-           rect(this.x,this.y,this.w,this.h);
-           console.log(this.x);
-           console.log(this.y);
-           pop();
-         },
-       });
-
-
     }
   }
-}
-
-///NEW///
-///reset()
-//
-//Resets the ball after a point is scored, shoots the ball at the winning paddle
-function reset(winner){
-  console.log("reset function called.");
-  if(winner == leftPaddle){
-    ball.vx = random(-5,-10);
-  }
-  if(winner == rightPaddle){
-    ball.vx = random(5,10);
-  }
-
 }
 
 // handleBallOffScreen()
@@ -316,22 +259,7 @@ function handleBallOffScreen() {
   var ballRight = ball.x + ball.size/2;
 
   // Check for ball going off the sides
-  if (ball.x < 0) {
-    // If it went off either side, reset it to the centre
-    ball.x = width/2;
-    ball.y = height/2;
-    // NOTE that we don't change its velocity here so it just
-    // carries on moving with the same velocity after its
-    // position is reset.
-    // This is where we would count points etc!
-
-    ///NEW///
-rightPaddle.rightScore += 1;
-reset(rightPaddle);
-
-console.log("Right paddle has " + rightPaddle.rightScore + " points");
-
-} else if (ball.x > width) {
+  if (ballRight < 0) {
     // If it went off either side, reset it to the centre
     ball.x = width/2;
     ball.y = height/2;
@@ -339,15 +267,25 @@ console.log("Right paddle has " + rightPaddle.rightScore + " points");
     // carries on moving with the same velocity after its
     // position is reset.
 
-leftPaddle.leftScore += 1;
-reset(leftPaddle);
-console.log("Left paddle has " + leftPaddle.leftScore + " points");
+///NEW///
+rightPaddle.score += 1;
+console.log("Right paddle has " + rightPaddle.score + "points");
+
+} else if (ballLeft > width) {
+    // If it went off either side, reset it to the centre
+    ball.x = width/2;
+    ball.y = height/2;
+    // NOTE that we don't change its velocity here so it just
+    // carries on moving with the same velocity after its
+    // position is reset.
+
+leftPaddle.score += 1;
+console.log("Left paddle has " + leftPaddle.score + "points");
 
 
   }
   ///END NEW///
-  }
-
+}
 
 // displayBall()
 //
