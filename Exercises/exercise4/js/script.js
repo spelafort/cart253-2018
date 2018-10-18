@@ -177,7 +177,7 @@ function draw() {
     // Display the paddles and ball
     displayPaddle(leftPaddle);
     displayPaddle(rightPaddle);
-    displayBall();
+    displayBall();  
 
     textFont("Helvetica");
     textSize(50);
