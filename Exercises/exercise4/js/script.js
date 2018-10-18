@@ -23,7 +23,7 @@ var ball = {
   size: 20,
   vx: 0,
   vy: 0,
-  speed: 4
+  speed: 10
 }
 
 // PADDLES
@@ -123,48 +123,82 @@ function setupBall() {
 //
 // Calls the appropriate functions to run the game
 function draw() {
+  ///NEW///
+  ///checks if there is a game winner over 10points
+  ///
+  if(leftPaddle.leftScore < 10 || rightPaddle.rightScore <10){
+    // Fill the background
+    background(bgColor);
 
-  // Fill the background
-  background(bgColor);
+    // Handle input
+    // Notice how we're using the SAME FUNCTION to handle the input
+    // for the two paddles!
+    handleInput(leftPaddle);
+    handleInput(rightPaddle);
 
-  // Handle input
-  // Notice how we're using the SAME FUNCTION to handle the input
-  // for the two paddles!
-  handleInput(leftPaddle);
-  handleInput(rightPaddle);
+    // Update positions of all objects
+    // Notice how we're using the SAME FUNCTION to handle the input
+    // for all three objects!
+    updatePosition(leftPaddle);
+    updatePosition(rightPaddle);
+    updatePosition(ball);
 
-  // Update positions of all objects
-  // Notice how we're using the SAME FUNCTION to handle the input
-  // for all three objects!
-  updatePosition(leftPaddle);
-  updatePosition(rightPaddle);
-  updatePosition(ball);
+    // Handle collisions
+    handleBallWallCollision();
+    handleBallPaddleCollision(leftPaddle);
+    handleBallPaddleCollision(rightPaddle);
 
-  // Handle collisions
-  handleBallWallCollision();
-  handleBallPaddleCollision(leftPaddle);
-  handleBallPaddleCollision(rightPaddle);
+    // Handle the ball going off screen
+    handleBallOffScreen();
 
-  // Handle the ball going off screen
-  handleBallOffScreen();
+    // Display the paddles and ball
+    displayPaddle(leftPaddle);
+    displayPaddle(rightPaddle);
+    displayBall();
 
-  // Display the paddles and ball
-  displayPaddle(leftPaddle);
-  displayPaddle(rightPaddle);
-  displayBall();
-
-  ///NEW//
-  //goes through array of static paddles, displays them
-var staticPaddlesLength = staticPaddles.length;
-console.log(staticPaddlesLength);
-for (var i = 0; i < staticPaddles.length; i++) {
-    staticPaddles[i].display(leftPaddle.leftScore*20,rightPaddle.rightScore*20);
+    ///NEW//
+    //goes through array of static paddles, displays them
+  var staticPaddlesLength = staticPaddles.length;
+  console.log(staticPaddlesLength);
+  for (var i = 0; i < staticPaddles.length; i++) {
+      staticPaddles[i].display(leftPaddle.leftScore*20,rightPaddle.rightScore*20);
+  }
 }
-//BROKEN!
-/*//checks for static paddles ball collision
-for (var j = 0; j < staticPaddlesLength; j++){
-  handleBallPaddleCollision(staticPaddles[j]);
-}*/
+  if(leftPaddle.leftScore >= 10 || rightPaddle.rightScore >= 10){
+    background(bgColor);
+    // Handle collisions
+    handleBallWallCollision();
+    handleBallPaddleCollision(leftPaddle);
+    handleBallPaddleCollision(rightPaddle);
+
+    // Handle the ball going off screen
+    handleBallOffScreen();
+
+    // Display the paddles and ball
+    displayPaddle(leftPaddle);
+    displayPaddle(rightPaddle);
+    displayBall();
+
+    textFont("Helvetica");
+    textSize(50);
+    textAlign(CENTER,CENTER);
+    noStroke();
+    fill(255,0,0);
+    text("GAME OVER",width/2,height/2);
+
+
+    ball.speed = 10000;
+    var staticPaddlesLength = staticPaddles.length;
+    console.log(staticPaddlesLength);
+    for (var i = 0; i < staticPaddles.length; i++) {
+        staticPaddles[i].display(255*20,255*20);
+      }
+  /*//checks for static paddles ball collision
+  for (var j = 0; j < staticPaddlesLength; j++){
+    handleBallPaddleCollision(staticPaddles[j]);
+  }*/
+
+  }
 
 ///END NEW///
 }
@@ -273,8 +307,8 @@ function handleBallPaddleCollision(paddle) {
         staticPaddles.push({
           x: ball.x,
           y: ball.y,
-          w: 10,
-          h: 70,
+          w: random(100,500),
+          h: random(10,50),
           display: function(a,b) {
             push();
             fill(a+b,a,b);
