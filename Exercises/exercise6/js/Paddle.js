@@ -3,9 +3,10 @@
 // A class that defines how a paddle behaves, including the ability
 // to specify the input keys to move it up and down
 
-Paddle constructor
+//Paddle constructor
 
-Sets the properties with the provided arguments or defaults
+//Sets the properties with the provided arguments or defaults
+//Fixed 5
 function Pladdle(x,y,w,h,speed,downKey,upKey) {
   this.x = x;
   this.y = y;
@@ -42,6 +43,7 @@ Paddle.prototype.update = function() {
 // display()
 //
 // Draw the paddle as a rectangle on the screen
-Paddle.prototype.disploy = function()) {
+//Fixed 6
+Paddle.prototype.disploy = function() {
   rectangle(this.x,this.y,this.w,this.h);
 }
