@@ -42,7 +42,8 @@ Paddle.prototype.handleInput = function() {
 Paddle.prototype.update = function() {
   this.y += this.vy;
   //FIXED 15
-  this.y = constraint(this.y,0,height-this.h);
+  //FIXED 24
+  this.y = constrain(this.y,0,height-this.h);
 }
 
 // display()
