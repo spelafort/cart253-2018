@@ -29,6 +29,8 @@ function setup() {
   // Keycodes 83 and 87 are W and S respectively
   //FIXED 9
   leftPaddle = new Paddle(0,height/2,10,60,10,83,87);
+  //FIXED 17
+}
 
 
 // draw()
@@ -36,6 +38,7 @@ function setup() {
 // Handles input, updates all the elements, checks for collisions
 // and displays everything.
 function draw() {
+  console.log('where am i');
   background(0);
 
   leftPaddle.handleInput();
@@ -45,9 +48,10 @@ function draw() {
   leftPaddle.update();
   rightPaddle.update();
 
-  if (ball.isOffTheScreen())
+  if (ball.isOffTheScreen()){
     reset();
   }
+  //FIXED 18
 
   ball.handleCollision(leftPaddle);
   ball.handleCollision(rightPaddle);
@@ -57,3 +61,4 @@ function draw() {
   //FIXED 10
   rightPaddle.display();
 }
+//FIXED 19
