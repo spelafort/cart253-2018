@@ -49,5 +49,6 @@ Paddle.prototype.update = function() {
 //FIXED 6
 //FIXED 13
 Paddle.prototype.display = function() {
-  rectangle(this.x,this.y,this.w,this.h);
+//FIXED 14
+  rect(this.x,this.y,this.w,this.h);
 }
