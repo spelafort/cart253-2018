@@ -6,8 +6,9 @@
 //Paddle constructor
 
 //Sets the properties with the provided arguments or defaults
-//Fixed 5
-function Pladdle(x,y,w,h,speed,downKey,upKey) {
+//FIXED 5
+//FIXED 8
+function Paddle(x,y,w,h,speed,downKey,upKey) {
   this.x = x;
   this.y = y;
   this.xv = 0;
