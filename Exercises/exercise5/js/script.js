@@ -39,18 +39,18 @@ function setup() {
 // and displays everything.
 function draw() {
   background(0);
-///NEW////
+  ///NEW////
   var paddlesLength = paddles.length;
   console.log("right now there are " + paddlesLength + " paddles!");
   for (var i = 0; i < paddlesLength; i++) {
-      paddles[i].handleInput();
-      paddles[i].update();
-      paddles[i].display();
-      ball.handleCollision(paddles[i], paddles);
-  ////END NEW////
+    paddles[i].handleInput();
+    paddles[i].update();
+    paddles[i].display();
+    ball.handleCollision(paddles[i], paddles);
+    ////END NEW////
   }
 
-/*
+  /*
   leftPaddle.handleInput();
   rightPaddle.handleInput();
   leftPaddle.update();
@@ -58,7 +58,7 @@ function draw() {
   leftPaddle.display();
   rightPaddle.display();
   ball.handleCollision(rightPaddle, paddles);
-*/
+  */
 
   ball.update();
 
