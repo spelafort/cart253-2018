@@ -43,8 +43,8 @@ function draw() {
 
   leftPaddle.handleInput();
   rightPaddle.handleInput();
-
-  ball.update;
+  //FIXED 27
+  ball.update();
   leftPaddle.update();
   rightPaddle.update();
   //FIXED 25
