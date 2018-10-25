@@ -1,18 +1,18 @@
-// Basic OO Pong
-// by Pippin Barr
-//
-// A primitive implementation of Pong with no scoring system
-// just the ability to play the game with the keyboard.
-//
-// Arrow keys control the right hand paddle, W and S control
-// the left hand paddle.
+//Rebuilt OOP exercise
 //
 // Written with JavaScript OOP.
+//NOTE: I decided not to remake my exercise 4 entirely, since it was a bit of a hack job.
+//My original idea was to spawn new paddles on collision, but due to some collision detection problems
+//I gave up on that and just spawned 'masks' in exercise 4. I'm just going back to my original idea.
 
 // Variable to contain the objects representing our ball and paddles
 var ball;
 var leftPaddle;
 var rightPaddle;
+
+///NEW///
+var paddles = [];
+///END NEW///
 
 // setup()
 //
@@ -26,6 +26,11 @@ function setup() {
   // Create the left paddle with W and S as controls
   // Keycodes 83 and 87 are W and S respectively
   leftPaddle = new Paddle(0,height/2,10,60,10,83,87);
+
+  ///NEW///
+  paddles[0] = rightPaddle;
+  paddles[1] = leftPaddle;
+  ///END NEW///
 }
 
 // draw()
@@ -34,22 +39,34 @@ function setup() {
 // and displays everything.
 function draw() {
   background(0);
-
-  leftPaddle.handleInput();
-  rightPaddle.handleInput();
-
-  ball.update();
-  leftPaddle.update();
-  rightPaddle.update();
-
-  if (ball.isOffScreen()) {
-    ball.reset();
+///NEW////
+  var paddlesLength = paddles.length;
+  console.log("right now there are " + paddlesLength + " paddles!");
+  for (var i = 0; i < paddlesLength; i++) {
+      paddles[i].handleInput();
+      paddles[i].update();
+      paddles[i].display();
+      ball.handleCollision(paddles[i], paddles);
+  ////END NEW////
   }
 
-  ball.handleCollision(leftPaddle);
-  ball.handleCollision(rightPaddle);
-
-  ball.display();
+/*
+  leftPaddle.handleInput();
+  rightPaddle.handleInput();
+  leftPaddle.update();
+  rightPaddle.update();
   leftPaddle.display();
   rightPaddle.display();
+  ball.handleCollision(rightPaddle, paddles);
+*/
+
+  ball.update();
+
+  if (ball.isOffScreen()) {
+    ball.reset(paddles);
+
+  }
+
+
+  ball.display();
 }

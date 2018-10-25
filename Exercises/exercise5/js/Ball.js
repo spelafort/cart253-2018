@@ -61,24 +61,60 @@ Ball.prototype.display = function () {
 //
 // Check if this ball overlaps the paddle passed as an argument
 // and if so reverse x velocity to bounce
-Ball.prototype.handleCollision = function(paddle) {
-  // Check if the ball overlaps the paddle on x axis
-  if (this.x + this.size > paddle.x && this.x < paddle.x + paddle.w) {
-    // Check if the ball overlaps the paddle on y axis
-    if (this.y + this.size > paddle.y && this.y < paddle.y + paddle.h) {
-      // If so, move ball back to previous position (by subtracting current velocity)
-      this.x -= this.vx;
-      this.y -= this.vy;
-      // Reverse x velocity to bounce
-      this.vx = -this.vx;
+Ball.prototype.handleCollision = function(paddle, paddlearray) {
+
+  //Check if paddle is Left or Right paddle (original paddles), in which case make it bounce
+  if(paddle == paddlearray[0] || paddle == paddlearray[1]){
+    if (this.x + this.size > paddle.x && this.x < paddle.x + paddle.w) {
+      // Check if the ball overlaps the paddle on y axis
+        if (this.y + this.size > paddle.y && this.y < paddle.y + paddle.h) {
+          // If so, move ball back to previous y position (by subtracting current velocity)
+          this.y -= this.vy;
+          // Reverse x velocity to bounce
+          this.vx = -this.vx;
+
+          ///NEW///
+          //spawn a new paddle that won't move
+          paddles.push(new Paddle(this.x,this.y,paddle.w,paddle.h,0,random(1,100),random(1,100)));
+          //check if collision paddle is left or right paddle
+          if(paddle.x <= width/2){
+            paddle.x = paddle.x + paddle.w;
+            // move ball back to in front of new paddle position
+            this.x = paddle.x + paddle.w;
+
+          } else if (paddle.x >= width/2){
+            paddle.x = paddle.x - paddle.w;
+            // move ball back to in front of new paddle position
+            this.x = paddle.x - paddle.w;
+
+          }
+        }
     }
   }
-}
+//if it's not original paddles, then delete this paddle on collision
+    else {
+      if (this.x + this.size > paddle.x && this.x < paddle.x + paddle.w) {
+        // Check if the ball overlaps the paddle on y axis
+        if (this.y + this.size > paddle.y && this.y < paddle.y + paddle.h) {
+          // If so, delete current paddle
+          paddle.active = false;
+          this.vx = -this.vx;
 
-// reset()
-//
-// Set position back to the middle of the screen
-Ball.prototype.reset = function () {
-  this.x = width/2;
-  this.y = height/2;
+        }
+      }
+    }
 }
+          ///END NEW///
+
+  // reset()
+  //
+  Ball.prototype.reset = function (paddlearray) {
+    ///NEW ///
+    //set ball to middle between two paddles
+    this.x = (paddlearray[0].x+paddlearray[1].x)/2;
+    this.y = (paddlearray[0].y+paddlearray[1].y)/2;
+    this.vx = -this.vx
+    this.vy = random(1,10);
+
+    ///END NEW///
+  }

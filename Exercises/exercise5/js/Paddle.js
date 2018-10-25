@@ -16,6 +16,7 @@ function Paddle(x,y,w,h,speed,downKey,upKey) {
   this.speed = speed;
   this.downKey = downKey;
   this.upKey = upKey;
+  this.active = true;
 }
 
 // handleInput()
@@ -23,6 +24,9 @@ function Paddle(x,y,w,h,speed,downKey,upKey) {
 // Check if the up or down keys are pressed and update velocity
 // appropriately
 Paddle.prototype.handleInput = function() {
+  if(!this.active){
+    return
+  }
   if (keyIsDown(this.upKey)) {
     this.vy = -this.speed;
   }
@@ -38,6 +42,9 @@ Paddle.prototype.handleInput = function() {
 // Update y position based on velocity
 // Constrain the resulting position to be within the canvas
 Paddle.prototype.update = function() {
+  if(!this.active){
+    return
+  }
   this.y += this.vy;
   this.y = constrain(this.y,0,height-this.h);
 }
@@ -46,6 +53,9 @@ Paddle.prototype.update = function() {
 //
 // Draw the paddle as a rectangle on the screen
 Paddle.prototype.display = function() {
+  if(!this.active){
+    return
+  }
   fill(255);
   rect(this.x,this.y,this.w,this.h);
 }
