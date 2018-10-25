@@ -53,5 +53,7 @@ Paddle.prototype.update = function() {
 //FIXED 13
 Paddle.prototype.display = function() {
 //FIXED 14
+//FIXED 26
+fill(255);
   rect(this.x,this.y,this.w,this.h);
 }
