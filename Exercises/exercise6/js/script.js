@@ -51,7 +51,8 @@ function draw() {
   rightPaddle.update();
   //FIXED 25
   if (ball.isOffScreen()){
-    reset();
+    //FIXED 33
+    ball.reset();
   }
   //FIXED 18
 
