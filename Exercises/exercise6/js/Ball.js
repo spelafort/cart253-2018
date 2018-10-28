@@ -34,7 +34,7 @@ Ball.prototype.update = function () {
 
   // Check for touching upper or lower edge and reverse velocity if so
   //FIXED 33
-  if (this.y == 0 || this.y + this.size === height) {
+  if (this.y == 0 || this.y + this.size == height) {
     this.vy = -this.vy;
   }
 }
@@ -46,7 +46,8 @@ Ball.prototype.update = function () {
 Ball.prototype.isOffScreen = function () {
   // Check for going off screen and reset if so
   //FIXED 2
-  if (this.x + this.size < 0 && this.x > width) {
+  //FIXED 32
+  if (this.x + this.size < 0 || this.x > width) {
     return true;
   }
   else {
