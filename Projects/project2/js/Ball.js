@@ -58,7 +58,7 @@ Ball.prototype.isOffScreen = function (paddlearray) {
       paddlearray[1].x += 2*paddlearray[1].w;
       //move right paddle back, as long as it isn't at the limit of the screen
       if(paddlearray[0].x < width - 10){
-        paddlearray[0].x = 2*paddlearray[0].w;
+        paddlearray[0].x += 2*paddlearray[0].w;
       }
 
     }
