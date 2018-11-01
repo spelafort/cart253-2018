@@ -41,6 +41,8 @@ function setup() {
 // Handles input, updates all the elements, checks for collisions
 // and displays everything.
 function draw() {
+
+
   background(0);
   ///NEW////
   var paddlesLength = paddles.length;
@@ -84,9 +86,20 @@ function draw() {
   //check if paddle has reached goalpost
   if(paddles[0].x <= width*1.1*0.5){
     //right paddle has reached goalpost
+    paddles[0].w = 300;
+    paddles[0].h = 30;
 
   }else if(paddles[1].x > width*0.9*0.5){
+    paddles[1].w = 300;
+    paddles[1].h = 30;
 
+
+  }
+}
+
+function keyPressed(){
+  if(keyCode === LEFT_ARROW){
+    paddles[0].x -= 50;
 
   }
 }

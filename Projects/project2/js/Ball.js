@@ -40,34 +40,32 @@ Ball.prototype.update = function () {
 // Checks if the ball has moved off the screen and, if so, returns true.
 // Otherwise it returns false.
 Ball.prototype.isOffScreen = function (paddlearray) {
-  // Check for going off screen
-  if (this.x + this.size < 0 || this.x > width) {
+  // Check for going off screen on left
+  if (this.x + this.size < 0) {
 
-//NEW//
+    //NEW//
     //check for which paddle let the ball pass, then bump that paddle back a step (but only if it's not at the edge)
-    if(this.x < width/2 && paddlearray[0] < width - 10){
-      //ball 'scored' on left, so right goes forward
-      paddlearray[0].x += 2*paddlearray[0].w;
-      //move left paddle back, as long as it isn't at the limit of screen
-      if(paddlearray[1].x >= 0){
+    //ball 'scored' on left, so right goes forward
+    paddlearray[0].x -= 2*paddlearray[0].w;
+    //move left paddle back, as long as it isn't at the limit of screen
+    if(paddlearray[1].x > 0){
       paddlearray[1].x -= 2*paddlearray[1].w;
-      }
-
-    }else if(this.x > width/2 && paddlearray[1].x >= 0){
-      //ball 'scored' on right, so move left paddle forward and right paddle back
-      paddlearray[1].x += 2*paddlearray[1].w;
-      //move right paddle back, as long as it isn't at the limit of the screen
-      if(paddlearray[0].x < width - 10){
-        paddlearray[0].x += 2*paddlearray[0].w;
-      }
-
     }
     return true;
-  }
-  else {
+
+  }else if(this.x > width){
+    //ball 'scored' on right, so move left paddle forward and right paddle back
+    paddlearray[1].x += 2*paddlearray[1].w;
+    //move right paddle back, as long as it isn't at the limit of the screen
+    if(paddlearray[0].x < width - 10){
+      paddlearray[0].x += 2*paddlearray[0].w;
+    }
+    return true;
+  }else {
     return false;
   }
 }
+
 
 
 // letBallPass()
