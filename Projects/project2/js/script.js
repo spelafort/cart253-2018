@@ -28,8 +28,11 @@ function setup() {
   leftPaddle = new Paddle(0,height/2,10,60,10,83,87);
 
   ///NEW///
+//assign initial paddles to paddle array
   paddles[0] = rightPaddle;
   paddles[1] = leftPaddle;
+
+
   ///END NEW///
 }
 
@@ -47,6 +50,14 @@ function draw() {
     paddles[i].update();
     paddles[i].display();
     ball.handleCollision(paddles[i], paddles);
+    //ball.letBallPass(paddles);
+
+    //create 'goal posts' (vertical lines that it's your goal to cross)
+    stroke(255,0,0);
+    strokeWeight(4);
+    line(width*0.9*0.5, 0, width*0.9*0.5, height);
+    line(width*1.1*0.5, 0, width*1.1*0.5, height);
+
     ////END NEW////
   }
 
@@ -62,11 +73,20 @@ function draw() {
 
   ball.update();
 
-  if (ball.isOffScreen()) {
+  if (ball.isOffScreen(paddles)) {
     ball.reset(paddles);
 
   }
 
 
   ball.display();
+
+  //check if paddle has reached goalpost
+  if(paddles[0].x <= width*1.1*0.5){
+    //right paddle has reached goalpost
+
+  }else if(paddles[1].x > width*0.9*0.5){
+
+
+  }
 }

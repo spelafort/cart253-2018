@@ -39,9 +39,29 @@ Ball.prototype.update = function () {
 //
 // Checks if the ball has moved off the screen and, if so, returns true.
 // Otherwise it returns false.
-Ball.prototype.isOffScreen = function () {
-  // Check for going off screen and reset if so
+Ball.prototype.isOffScreen = function (paddlearray) {
+  // Check for going off screen
   if (this.x + this.size < 0 || this.x > width) {
+
+//NEW//
+    //check for which paddle let the ball pass, then bump that paddle back a step (but only if it's not at the edge)
+    if(this.x < width/2 && paddlearray[0] < width - 10){
+      //ball 'scored' on left, so right goes forward
+      paddlearray[0].x += 2*paddlearray[0].w;
+      //move left paddle back, as long as it isn't at the limit of screen
+      if(paddlearray[1].x >= 0){
+      paddlearray[1].x -= 2*paddlearray[1].w;
+      }
+
+    }else if(this.x > width/2 && paddlearray[1].x >= 0){
+      //ball 'scored' on right, so move left paddle forward and right paddle back
+      paddlearray[1].x += 2*paddlearray[1].w;
+      //move right paddle back, as long as it isn't at the limit of the screen
+      if(paddlearray[0].x < width - 10){
+        paddlearray[0].x = 2*paddlearray[0].w;
+      }
+
+    }
     return true;
   }
   else {
@@ -49,11 +69,25 @@ Ball.prototype.isOffScreen = function () {
   }
 }
 
+
+// letBallPass()
+//
+// Moves the paddle who let ball pass back bounce
+/*Ball.prototype.letBallPass = function (paddlearray){
+  if (this.isOffScreen == true){
+
+    else{
+      return;
+    }
+  }
+}*/
+// END NEW//
+
 // display()
 //
 // Draw the ball as a rectangle on the screen
 Ball.prototype.display = function () {
-  fill(255);
+  fill(255,0,0);
   rect(this.x,this.y,this.size,this.size);
 }
 
@@ -68,8 +102,9 @@ Ball.prototype.handleCollision = function(paddle, paddlearray) {
     if (this.x + this.size > paddle.x && this.x < paddle.x + paddle.w) {
       // Check if the ball overlaps the paddle on y axis
       if (this.y + this.size > paddle.y && this.y < paddle.y + paddle.h) {
-        // If so, move ball back to previous y position (by subtracting current velocity)
+        // If so, move ball back to previous y position (by subtracting current velocity), then make it ever so slightly faster
         this.y -= this.vy;
+        this.vy += 0.1*this.vy;
         // Reverse x velocity to bounce
         this.vx = -this.vx;
 
@@ -78,14 +113,14 @@ Ball.prototype.handleCollision = function(paddle, paddlearray) {
         paddles.push(new Paddle(this.x,this.y,paddle.w,paddle.h,0,random(1,100),random(1,100)));
         //check if collision paddle is left or right paddle
         if(paddle.x <= width/2){
-          paddle.x = paddle.x + paddle.w;
+          paddle.x = paddle.x + 2*paddle.w;
           // move ball back to in front of new paddle position
-          this.x = paddle.x + paddle.w;
+          this.x = paddle.x + 2*paddle.w;
 
         } else if (paddle.x >= width/2){
-          paddle.x = paddle.x - paddle.w;
+          paddle.x = paddle.x - 2*paddle.w;
           // move ball back to in front of new paddle position
-          this.x = paddle.x - paddle.w;
+          this.x = paddle.x - 2*paddle.w;
 
         }
       }
@@ -99,6 +134,8 @@ Ball.prototype.handleCollision = function(paddle, paddlearray) {
         // If so, delete current paddle
         paddle.w = 0;
         paddle.h = 0;
+        paddle.x = 9999;
+        paddle.y = -99999;
         paddle.active = false;
         this.vx = -this.vx;
 
@@ -116,7 +153,8 @@ Ball.prototype.reset = function (paddlearray) {
   this.x = (paddlearray[0].x+paddlearray[1].x)/2;
   this.y = (paddlearray[0].y+paddlearray[1].y)/2;
   this.vx = -this.vx
-  this.vy = random(1,10);
+  //make y value random on reset
+  this.vy = random(1,8);
 
   ///END NEW///
 }

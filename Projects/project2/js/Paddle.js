@@ -16,7 +16,9 @@ function Paddle(x,y,w,h,speed,downKey,upKey) {
   this.speed = speed;
   this.downKey = downKey;
   this.upKey = upKey;
+  ///NEW///
   this.active = true;
+  ///END NEW///
 }
 
 // handleInput()
@@ -56,6 +58,7 @@ Paddle.prototype.display = function() {
   if(!this.active){
     return
   }
+  noStroke();
   fill(255);
   rect(this.x,this.y,this.w,this.h);
 }
