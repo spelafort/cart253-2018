@@ -7,13 +7,16 @@
 // Ball constructor
 //
 // Sets the properties with the provided arguments
-function Ball(x,y,vx,vy,size,speed) {
+function Ball(x,y,vx,vy,size,speed, bounce, deletePaddle, moveBack) {
   this.x = x;
   this.y = y;
   this.vx = vx;
   this.vy = vy;
   this.size = size;
   this.speed = speed;
+  this.bounce = bounce;
+  this.deletePaddle = deletePaddle;
+  this.moveBack = moveBack;
 }
 
 // update()
@@ -49,6 +52,7 @@ Ball.prototype.isOffScreen = function (paddlearray) {
     paddlearray[0].x -= 2*paddlearray[0].w;
     //move left paddle back, as long as it isn't at the limit of screen
     if(paddlearray[1].x > 0){
+      moveBack.play();
       paddlearray[1].x -= 2*paddlearray[1].w;
     }
     return true;
@@ -58,6 +62,7 @@ Ball.prototype.isOffScreen = function (paddlearray) {
     paddlearray[1].x += 2*paddlearray[1].w;
     //move right paddle back, as long as it isn't at the limit of the screen
     if(paddlearray[0].x < width - 10){
+      moveBack.play();
       paddlearray[0].x += 2*paddlearray[0].w;
     }
     return true;
@@ -66,19 +71,6 @@ Ball.prototype.isOffScreen = function (paddlearray) {
   }
 }
 
-
-
-// letBallPass()
-//
-// Moves the paddle who let ball pass back bounce
-/*Ball.prototype.letBallPass = function (paddlearray){
-  if (this.isOffScreen == true){
-
-    else{
-      return;
-    }
-  }
-}*/
 // END NEW//
 
 // display()
@@ -99,12 +91,16 @@ Ball.prototype.handleCollision = function(paddle, paddlearray) {
   if(paddle == paddlearray[0] || paddle == paddlearray[1]){
     if (this.x + this.size > paddle.x && this.x < paddle.x + paddle.w) {
       // Check if the ball overlaps the paddle on y axis
+
+
       if (this.y + this.size > paddle.y && this.y < paddle.y + paddle.h) {
         // If so, move ball back to previous y position (by subtracting current velocity), then make it ever so slightly faster
         this.y -= this.vy;
         this.vy += 0.1*this.vy;
         // Reverse x velocity to bounce
         this.vx = -this.vx;
+        // make bounce sound
+        bounce.play();
 
         ///NEW///
         //spawn a new paddle that won't move
@@ -130,6 +126,7 @@ Ball.prototype.handleCollision = function(paddle, paddlearray) {
       // Check if the ball overlaps the paddle on y axis
       if (this.y + this.size > paddle.y && this.y < paddle.y + paddle.h) {
         // If so, delete current paddle
+        deletePaddle.play();
         paddle.w = 0;
         paddle.h = 0;
         paddle.x = 9999;

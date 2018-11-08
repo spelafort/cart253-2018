@@ -6,17 +6,20 @@
 // Paddle constructor
 //
 // Sets the properties with the provided arguments or defaults
-function Paddle(x,y,w,h,speed,downKey,upKey) {
+function Paddle(x,y,w,h,speed,downKey,upKey,leftKey,rightKey) {
   this.x = x;
   this.y = y;
   this.vx = 0;
   this.vy = 0;
   this.w = w;
   this.h = h;
+  ///NEW///
   this.speed = speed;
   this.downKey = downKey;
   this.upKey = upKey;
-  ///NEW///
+  this.leftKey = leftKey;
+  this.rightKey = rightKey;
+
   this.active = true;
   ///END NEW///
 }
@@ -34,9 +37,13 @@ Paddle.prototype.handleInput = function() {
   }
   else if (keyIsDown(this.downKey)) {
     this.vy = this.speed;
-  }
-  else {
+  }else if (keyIsDown(this.leftKey)){
+    this.vx = -this.speed;
+  }else if (keyIsDown(this.rightKey)){
+    this.vx = this.speed;
+  }else {
     this.vy = 0;
+    this.vx = 0;
   }
 }
 
@@ -61,4 +68,18 @@ Paddle.prototype.display = function() {
   noStroke();
   fill(255);
   rect(this.x,this.y,this.w,this.h);
+}
+//FIX THIS
+Paddle.prototype.paddleCollision = function(paddlearray){
+
+  for (var i = 0; i < 2; i++) {
+    if (this.x + this.w > paddlearray[i].x && this.x < paddlearray[i].x + paddlearray[i].w) {
+      // Check if the ball overlaps the paddle on y axis
+      if (this.y + this.h > paddlearray[i].y && this.y < paddlearray[i].y + paddlearray[i].h) {
+        //paddlearray[i].vx = -paddlearray[i].vx;
+        console.log("PADDLES COLLIDED!!!!!");
+  }
+
+}
+}
 }
