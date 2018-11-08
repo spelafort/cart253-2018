@@ -1,8 +1,9 @@
-//Project 2: Object Oriented Pong Breakout Speed Racer Zelda Batman
+//Project 2: _BRACEOUT_
 //
 //Game changes the goal of pong to one of moving towards the center faster than your opponent
 //the 'positive' actions remaint he same (hit and bounce and try to score), but movement is the Only
-// score. Music provided by my friend Eric.
+// score. I tried to go against my inclinations to make things pretty or conceptual or unfun
+// and actually make a fun thing for once? I think it plays fairly well. Music provided by my friend Eric.
 // Variable to contain the objects representing our ball and paddles
 var ball;
 var leftPaddle;
@@ -75,10 +76,12 @@ function draw() {
 
 function keyPressed(){
   if(keyCode === LEFT_ARROW){
-    paddles[0].x -= 50;
+    //for debugging
+    //paddles[0].x -= 50;
 
   }else if (keyCode === RIGHT_ARROW){
-    paddles[0].x += 50;
+    //for debugging
+    //paddles[0].x += 50;
   }else if (keyCode === ENTER && gameStarted === false && gameEnded === false){
     console.log("enter has been pressed.")
     gameStarted = true;
@@ -109,7 +112,7 @@ function gameHandler(){
     noStroke();
     fill(255,0,0);
     textSize(66);
-    text("_PRACEOUT_",width/2,height/5);
+    text("_BRACEOUT_",width/2,height/5);
     fill(255);
     textSize(35);
     text("Pong!_Breakout!_Racer!", width/2, 175);
