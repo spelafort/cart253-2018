@@ -2,8 +2,9 @@
 //
 //Game changes the goal of pong to one of moving towards the center faster than your opponent
 //the 'positive' actions remaint he same (hit and bounce and try to score), but movement is the Only
-// score. I tried to go against my inclinations to make things pretty or conceptual or unfun
-// and actually make a fun thing for once? I think it plays fairly well. Music provided by my friend Eric.
+// score. Ball accelerates over time, so the 'breakout' leftover paddles are necessary.
+// I tried to go against my inclinations to make things pretty or conceptual or unfun
+// and actually make a fun thing for once? Music provided by my friend Eric.
 // Variable to contain the objects representing our ball and paddles
 var ball;
 var leftPaddle;
@@ -29,6 +30,7 @@ var paddles = [];
 //
 // Creates the ball and paddles
 function preload() {
+  /// NEW///
   arcade = loadFont("assets/fonts/arcade.ttf");
   music = new Audio("assets/sounds/earl.mp3");
   bounce = new Audio("assets/sounds/bounce.wav");
@@ -36,6 +38,7 @@ function preload() {
   deletePaddle = new Audio("assets/sounds/delete.wav");
   victory = new Audio("assets/sounds/victory.wav");
   launchBall = new Audio("assets/sounds/launchBall.wav");
+  ///END NEW///
 
 
 }
