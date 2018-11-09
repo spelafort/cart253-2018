@@ -97,18 +97,20 @@ function keyPressed(){
     paddles[0].y = height/2;
     paddles[1].y = height/2;
     ball.reset(paddles);
-    //get rid of excess paddles by shrinking them to null size
+    //get rid of excess paddles by shrinking them to null size and moving them away
     for(var i = 2; i < paddles.length; i++){
 
       paddles[i].w = 0;
       paddles[i].h = 0;
+      paddles[i].x = 9999;
+      paddles[i].y = 9999;
     }
   }
 }
 
 function gameHandler(){
   if(gameStarted == false && gameEnded === false){
-    // Prepare our typography
+    // Prepare our typography and type title page
     background(0);
     textFont("arcade");
     textAlign(CENTER,TOP);
