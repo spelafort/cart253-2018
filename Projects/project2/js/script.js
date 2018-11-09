@@ -32,7 +32,7 @@ var paddles = [];
 function preload() {
   /// NEW///
   arcade = loadFont("assets/fonts/arcade.ttf");
-  music = new Audio("assets/sounds/earl.mp3");
+  music = new Audio("assets/sounds/Earl.mp3");
   bounce = new Audio("assets/sounds/bounce.wav");
   moveBack = new Audio("assets/sounds/moveBack.wav");
   deletePaddle = new Audio("assets/sounds/delete.wav");
@@ -47,7 +47,6 @@ function preload() {
 //
 // Creates the ball and paddles
 function setup() {
-  music.play();
   createCanvas(1000,500);
   // Create a ball
   ball = new Ball(width/2,height/2,5,5,10,5, bounce,deletePaddle,moveBack);
@@ -89,6 +88,7 @@ function keyPressed(){
     console.log("enter has been pressed.")
     gameStarted = true;
     launchBall.play();
+    music.play();
   }else if (keyCode === ENTER && gameStarted === true && gameEnded === true){
     gameStarted = false;
     gameEnded = false;
