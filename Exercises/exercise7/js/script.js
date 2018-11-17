@@ -5,22 +5,18 @@ var numPointsRow;
 var numPointsColumn;
 var colorArray = [];
 var arrayOfPoints = [];
+var numPointsAlreadyDrawn = 0;
+var randomNumber;
 
 function setup() {
-	createCanvas(800, 600);
+	createCanvas(600, 600);
 	background(92,88,76);
 	noStroke();
 	numPointsRow = width/pointDistance;
 	numPointsColumn = height/pointDistance;
 	putColors(94,57,41,colorArray);
-	console.log('color array index 0 is ' + colorArray[0])
 	putColors(183,209,163,colorArray);
-	console.log('color array index 1 is ' + colorArray[1])
 	putColors(228,113,106,colorArray);
-	console.log('color array index 2 is ' + colorArray[2])
-
-
-
 }
 
 function draw(){
@@ -29,6 +25,11 @@ function draw(){
 	drawGridRow(startY);
 	startY = startY + pointDistance;
 }
+
+for (var i = 0; i < arrayOfPoints.length; i++) {
+console.log('array length is '+ arrayOfPoints.length + ' values at index ' + i + ' is ' + arrayOfPoints[i].x + ' , ' + arrayOfPoints[i].y);
+}
+
 }
 
 //function to draw a row on the basis of screen width
@@ -37,11 +38,12 @@ function drawGridRow(startY){
 	var pointsDrawn = 0;
   var x = startX;
   while (pointsDrawn < numPointsRow-1) {
-		f
+		arrayOfPoints[numPointsAlreadyDrawn] = new Point(x,startY);
 		fill(setFill(true,false,false,colorArray),setFill(false,true,false,colorArray),setFill(false,false,true,colorArray));
     ellipse(x,startY,pointDistance);
     x += pointDistance;
     pointsDrawn++;
+		numPointsAlreadyDrawn++;
 	}
 }
 
@@ -64,4 +66,10 @@ firstOrder = Math.floor(random(1,3))
 	}else if(b === true){
 		return colorArray[firstOrder][2];
 	}
+}
+
+function keyPressed(){
+	if(keyCode === LEFT_ARROW){
+
+  }
 }
