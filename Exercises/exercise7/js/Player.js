@@ -15,7 +15,6 @@ function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
   this.active = true;
 }
 Player.prototype.handleInput = function(pointsArray,distance) {
-console.log('handleInput is being run')
   if (keyIsDown(this.upKey)) {
     this.y -= this.distance;
     console.log('up key pressed');
@@ -34,6 +33,6 @@ console.log('handleInput is being run')
 
 Player.prototype.drawPlayer = function(){
   fill(255);
-  ellipse(this.x,this.y,pointDistance/4);
+  ellipse(this.x,this.y,pointDistance);
 
 }

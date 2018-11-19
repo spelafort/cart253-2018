@@ -1,8 +1,14 @@
 //Grid project
-//NOTES + DESCRIPTION: I wanted to experiment with making a colored grid for a turn-based game. The player movement
+//NOTES + DESCRIPTION: I wanted to experiment with making a shifting colored grid for a turn-based game. The player movement
 //is very basic at the moment. All I really wanted to do was to make the grid of 'hexes' scale to screen size and pick
 // a specific color from an array. Since I need to stick to RGB values, this was actually more difficult than I'd imagined
 // and involved using a second order array and a few functions to make sure that the RGB values aren't mixed up.
+// 'player' is controlled with arrow keys and constrained to the grid. Right now it doesn't do all that much, as I need to rebuild it:
+// I was trying to get away from having to store specific color info for a specific point, but in the end I couldn't clear using the background
+//function without wiping that color data. Next retry: will build color data into the 'point' object. Will also try to use the p5 functions called
+//'table' which would make it easier to handle the grid.
+
+
 //where the grid will start
 var startX = 50;
 var startY = 50;
@@ -33,30 +39,25 @@ function setup() {
 	putColors(94,57,41,colorArray);
 	putColors(183,209,163,colorArray);
 	putColors(228,113,106,colorArray);
-
+	//spawn a player object that will move through grids
 	player = new Player(startX,startY,pointDistance,DOWN_ARROW,UP_ARROW,LEFT_ARROW,RIGHT_ARROW);
 
 }
 
 function draw(){
 	background(92,88,76);
-	startY = 50;
+	startY = pointDistance;
 	//draw rows on the basis of screen height
 	while(startY < height) {
 		drawGridRow(startY);
 		startY = startY + pointDistance;
 	}
-
+	//don't let player move off the map
 	player.x = constrain(player.x,arrayOfPoints[0].x,arrayOfPoints[arrayOfPoints.length-1].x)
 	player.y = constrain(player.y,arrayOfPoints[0].y,arrayOfPoints[arrayOfPoints.length-1].y)
 
-	player.handleInput(arrayOfPoints,pointDistance);
 	player.drawPlayer();
-
-/* for debugging
-	for (var i = 0; i < arrayOfPoints.length; i++) {
-		console.log('array length is '+ arrayOfPoints.length + ' values at index ' + i + ' is ' + arrayOfPoints[i].x + ' , ' + arrayOfPoints[i].y);
-	} */
+	player.handleInput(arrayOfPoints,pointDistance);
 
 }
 
@@ -68,8 +69,9 @@ function drawGridRow(startY){
 	var x = startX;
 	while (pointsDrawn < numPointsRow) {
 		arrayOfPoints[numPointsAlreadyDrawn] = new Point(x,startY);
+		fill(setFill(true,false,false,colorArray,x,startY),setFill(false,true,false,colorArray,x,startY),setFill(false,false,true,colorArray,x,startY));
 		//makes sure each point is potentially a different color
-		fill(setFill(true,false,false,colorArray,numPointsAlreadyDrawn,0,arrayOfPoints[arrayOfPoints.length]),setFill(false,true,false,colorArray,numPointsAlreadyDrawn,0,arrayOfPoints[arrayOfPoints.length]),setFill(false,false,true,colorArray,numPointsAlreadyDrawn,0,arrayOfPoints[arrayOfPoints.length]));
+		fill(setFill(true,false,false,colorArray,x,startY),setFill(false,true,false,colorArray,x,startY),setFill(false,false,true,colorArray,x,startY));
 		ellipse(x,startY,pointDistance);
 		x += pointDistance;
 		pointsDrawn++;
@@ -84,9 +86,12 @@ function putColors(r,g,b,colorArray){
 }
 
 //function that randomly picks a SINGLE color from a list and determines fill for a specific point, making sure not to mix and match RGB values
-function setFill(r,g,b,colorArray,n,n1,n2){
+function setFill(r,g,b,colorArray,n,n2){
 		//first, choose a color of the three possibilities at random by returning either 0, 1, or 2
-		firstOrder = Math.floor(n,n1,n2,1,3));
+		//changes every minute (but I put in seconds to make this more obvious!)
+		noiseSeed(Math.floor(second(),0,59,0,10));
+		firstOrder = Math.floor(map(noise(n2*n),0,1,0,3));
+		console.log('first order is ' + firstOrder)
 		//returns either r,g,or b value so that they can be used for the fill function
 	if(r === true){
 		return colorArray[firstOrder][0];
