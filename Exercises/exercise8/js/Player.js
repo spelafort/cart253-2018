@@ -4,36 +4,45 @@
 function Player(x,y,distance,downKey,upKey,leftKey,rightKey,nowGo) {
   this.x = x;
   this.y = y;
+
+  this.deltaX = 0;
+  this.deltaY = 0;
+
   this.distance = distance;
   this.downKey = downKey;
   this.upKey = upKey;
   this.leftKey = leftKey;
   this.rightKey = rightKey;
-  this.nowGo = false;
 
-  this.active = true;
+  this.flagsActive = false;
+  this.nowGo = false;
 }
 
 //take player input
-Player.prototype.handleInput = function(nowGo,distance) {
+Player.prototype.handleInput = function() {
+
+
   if (keyIsDown(this.upKey)) {
-    //this.y -= this.distance;
     console.log('up key pressed');
-    this.drawDirectionArrows(nowGo,false,true,false,false);
+    flagsActive = true;
+    this.deltaY += -this.distance;
   }
   else if (keyIsDown(this.downKey)) {
-    //this.y += this.distance;
     console.log('down key pressed');
-    this.drawDirectionArrows(nowGo,true,false,false,false);
+    flagsActive = true;
+    this.deltaY += this.distance;
   }else if (keyIsDown(this.leftKey)){
-    //this.x -= this.distance;
     console.log('left key pressed');
-    this.drawDirectionArrows(nowGo,false,false,true,false);
+    flagsActive = true;
+    this.deltaX += -this.distance;
   }else if (keyIsDown(this.rightKey)){
-    //this.x += this.distance;
     console.log('right key pressed');
-    this.drawDirectionArrows(nowGo,false,false,false,true);
+    flagsActive = true;
+    //this.x += this.distance;
+    this.deltaX += this.distance;
   }
+  constrain(this.deltaY, -this.distance, this.distance)
+  constrain(this.deltaX, -this.distance, this.distance)
 }
 //draw the player object
 Player.prototype.drawPlayer = function(){
@@ -42,21 +51,18 @@ Player.prototype.drawPlayer = function(){
 }
 
 //draw markers for where it's going, to be used before a 'move' timer has counted down
-Player.prototype.drawDirectionArrows = function(nowGo, down,up,left,right){
-  fill(255,0,0);
-
-  if(down === true && nowGo === false){
-    console.log('draw flag down');
-      ellipse(this.x,this.y + this.distance,this.distance/2);
-  }else if (up === true && nowGo === false){
-      ellipse(this.x,this.y - this.distance,this.distance/2);
-      console.log('draw flag up');
-  }else if (left === true && nowGo === false){
-      ellipse(this.x - this.distance, this.y,this.distance/2);
-      console.log('draw flag left');
-  }else if (right === true && nowGo === false){
-      ellipse(this.x+this.distance,this.y,this.distance/2);
-      console.log('draw flag right');
+Player.prototype.drawDirectionArrows = function(){
+  if(this.flagsActive){
+    fill(255,0,0);
+    ellipse(this.x+this.deltaX,this.y + this.deltaY,this.distance/2);
   }
+}
 
+Player.prototype.moveAfterWait = function(){
+  if(this.nowGo){
+    this.x += this.deltaX;
+    this.y += this.deltaY;
+    nowGo = false;
+    flagsActive = false;
+  }
 }
