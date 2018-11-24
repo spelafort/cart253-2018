@@ -19,30 +19,29 @@ function Player(x,y,distance,downKey,upKey,leftKey,rightKey,nowGo) {
 }
 
 //take player input
-Player.prototype.handleInput = function() {
-
-
-  if (keyIsDown(this.upKey)) {
+Player.prototype.keyPressed = function() {
+  if (keyCode === this.upKey) {
     console.log('up key pressed');
-    flagsActive = true;
+    this.flagsActive = true;
     this.deltaY += -this.distance;
   }
-  else if (keyIsDown(this.downKey)) {
+  else if (keyCode === this.downKey) {
     console.log('down key pressed');
-    flagsActive = true;
+    this.flagsActive = true;
     this.deltaY += this.distance;
-  }else if (keyIsDown(this.leftKey)){
+  }else if (keyCode === this.leftKey){
     console.log('left key pressed');
-    flagsActive = true;
+    this.flagsActive = true;
     this.deltaX += -this.distance;
-  }else if (keyIsDown(this.rightKey)){
+  }else if (keyCode === this.rightKey){
     console.log('right key pressed');
-    flagsActive = true;
+    this.flagsActive = true;
     //this.x += this.distance;
     this.deltaX += this.distance;
   }
-  constrain(this.deltaY, -this.distance, this.distance)
-  constrain(this.deltaX, -this.distance, this.distance)
+
+  this.deltaX = constrain(this.deltaX, -this.distance, this.distance)
+  this.deltaY = constrain(this.deltaY, -this.distance, this.distance)
 }
 //draw the player object
 Player.prototype.drawPlayer = function(){
@@ -51,18 +50,21 @@ Player.prototype.drawPlayer = function(){
 }
 
 //draw markers for where it's going, to be used before a 'move' timer has counted down
-Player.prototype.drawDirectionArrows = function(){
-  if(this.flagsActive){
-    fill(255,0,0);
-    ellipse(this.x+this.deltaX,this.y + this.deltaY,this.distance/2);
+Player.prototype.drawDirectionArrows = function(timeLeft){
+  if(this.flagsActive === true && this.deltaX != 0 || this.deltaY != 0){
+      console.log('time left is ' + timeLeft);
+      fill(255,0,0,map(timeLeft,0,10,0,255));
+      ellipse(this.x+this.deltaX,this.y+this.deltaY,this.distance/2);
   }
 }
 
 Player.prototype.moveAfterWait = function(){
-  if(this.nowGo){
+  if(this.nowGo === true){
     this.x += this.deltaX;
     this.y += this.deltaY;
-    nowGo = false;
-    flagsActive = false;
+    this.nowGo = false;
+    this.flagsActive = false;
+    this.deltaX = 0;
+    this.deltaY = 0;
   }
 }
