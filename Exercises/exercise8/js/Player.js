@@ -4,7 +4,7 @@
 function Player(x,y,distance,downKey,upKey,leftKey,rightKey,nowGo) {
   this.x = x;
   this.y = y;
-
+  //describes change in X and Y values for player movement
   this.deltaX = 0;
   this.deltaY = 0;
 
@@ -22,7 +22,9 @@ function Player(x,y,distance,downKey,upKey,leftKey,rightKey,nowGo) {
 Player.prototype.keyPressed = function() {
   if (keyCode === this.upKey) {
     console.log('up key pressed');
+    //activate directional arrows
     this.flagsActive = true;
+    //store change in X and Y relative to the 'grid'
     this.deltaY += -this.distance;
   }
   else if (keyCode === this.downKey) {
@@ -39,7 +41,7 @@ Player.prototype.keyPressed = function() {
     //this.x += this.distance;
     this.deltaX += this.distance;
   }
-
+  //make sure that change in X and Y does not go further than one point on the grid
   this.deltaX = constrain(this.deltaX, -this.distance, this.distance)
   this.deltaY = constrain(this.deltaY, -this.distance, this.distance)
 }
@@ -52,12 +54,14 @@ Player.prototype.drawPlayer = function(){
 //draw markers for where it's going, to be used before a 'move' timer has counted down
 Player.prototype.drawDirectionArrows = function(timeLeft){
   if(this.flagsActive === true && this.deltaX != 0 || this.deltaY != 0){
-      console.log('time left is ' + timeLeft);
+    //map opacity of flag to countdown
       fill(255,0,0,map(timeLeft,0,10,0,255));
+      //draw movement flags
       ellipse(this.x+this.deltaX,this.y+this.deltaY,this.distance/2);
   }
 }
 
+//push player movement in whatever direction chosen, then reset booleans to do it again
 Player.prototype.moveAfterWait = function(){
   if(this.nowGo === true){
     this.x += this.deltaX;
