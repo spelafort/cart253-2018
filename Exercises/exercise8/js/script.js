@@ -1,4 +1,7 @@
-//Experiment in timed, turn-based movement
+//Experiment in timed, turn-based movement: input using UP/DOWN/LEFT/RIGHT arrows, but the player
+//only moves after the countdown is at zero (stressful turn-based); will add enemies next, and they will move
+//at BOTH zero and half of the timer value. Basically the enemies will be able to outpace you, and so you will
+//need to hide yourself by changing your colors
 
 //where the player will start
 var startX;
