@@ -1,7 +1,7 @@
 //Player objects
 
 // Sets the properties with the provided arguments or defaults
-function Player(x,y,distance,downKey,upKey,leftKey,rightKey,nowGo) {
+function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
   this.x = x;
   this.y = y;
   //describes change in X and Y values for player movement
@@ -47,7 +47,7 @@ Player.prototype.keyPressed = function() {
 }
 //draw the player object
 Player.prototype.drawPlayer = function(){
-  fill(255);
+  fill(255,0,0);
   ellipse(this.x,this.y,this.distance);
 }
 
