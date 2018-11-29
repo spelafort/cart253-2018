@@ -118,28 +118,25 @@ Enemy.prototype.findVector = function(playerX,playerY){
   this.gammaY = constrain(this.gammaY, -this.distance, this.distance)*/
 }
 //draw the player object
-Enemy.prototype.drawEnemy = function(){
+Enemy.prototype.drawEnemy = function(timer){
   fill(0,0,255);
   ellipse(this.x,this.y,this.distance/1.2);
 }
 
 //draw markers for where it's going, to be used before a 'move' timer has counted down
-Enemy.prototype.drawDirectionArrows = function(){
+Enemy.prototype.drawDirectionArrows = function(timeLeft){
+  //map opacity of flag to countdown
+  fill(0,255,255,100);
   if(this.deltaX != 0 || this.deltaY != 0){
-    //map opacity of flag to countdown
-    fill(0,255,255);
+
     //draw movement flags
     ellipse(this.x+this.deltaX,this.y+this.deltaY,this.distance/2);
   }
   if(this.alphaX != 0 || this.alphaY != 0){
-    //map opacity of flag to countdown
-    fill(0,255,255);
     //draw movement flags
     ellipse(this.x+this.alphaX,this.y+this.alphaY,this.distance/2);
   }
   if(this.gammaX != 0 || this.gammaY != 0){
-    //map opacity of flag to countdown
-    fill(0,255,255);
     //draw movement flags
     ellipse(this.x+this.gammaX,this.y+this.gammaY,this.distance/2);
   }

@@ -16,7 +16,8 @@ function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
 
   this.flagsActive = false;
   this.nowGo = false;
-  this.timerStarted = false;
+  this.playerCamo = false;
+
 }
 
 //take player input

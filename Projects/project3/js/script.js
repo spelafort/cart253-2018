@@ -14,8 +14,17 @@ var multiplier = 20
 var player;
 //enemy object
 var enemy;
+
+var grid;
 //countdown timer, 0 will push player movement
 var timer = 10;
+var c1 = color(255,204,0);
+var c2 = color(158,189,132);
+var c3 = color(238,196,122);
+var c4 = color(214,102,98);
+var c5 = color(194,194,106);
+
+var colors = [c1,c2,c3,c4,c5];
 
 
 function setup() {
@@ -28,11 +37,22 @@ function setup() {
 	//spawn a player object that will move through grids
 	enemy = new Enemy(pointDistance,pointDistance,pointDistance);
 	player = new Player(startX,startY,pointDistance,DOWN_ARROW,UP_ARROW,LEFT_ARROW,RIGHT_ARROW);
+	grid = new Grid(pointDistance,colors, pointDistance);
+
+
+
 
 }
 
 function draw() {
+	/*if (keyCode === this.camoKey){
+    console.log('right key pressed');
+    this.playerCamo = true;
+  }else{
+    this.playerCamo = false;
+  }*/
 	background(92,88,76);
+	grid.generateGrid(0,3);
 	//call player functions
 	player.drawDirectionArrows(timer);
 	player.drawPlayer();
@@ -42,9 +62,9 @@ function draw() {
 	player.y = constrain(player.y,0,height);
 
 	//call enemy functions
-	enemy.findVector(player.x,player.y);
+	enemy.findVector(player.x,player.y,player.playerCamo);
 	enemy.drawEnemy();
-	enemy.drawDirectionArrows();
+	enemy.drawDirectionArrows(timer);
 	enemy.moveAfterWait();
 	enemy.x = constrain(enemy.x,0+pointDistance,width-pointDistance);
 	enemy.y = constrain(enemy.y,0+pointDistance,height-pointDistance);
@@ -60,8 +80,6 @@ function draw() {
 	text(Math.floor(timer), enemy.x+enemy.alphaX,enemy.y+enemy.alphaY);
 	text(Math.floor(timer), enemy.x+enemy.gammaX,enemy.y+enemy.gammaY);
 
-console.log(enemy.nowGo);
-
 }
 
 function timerFunction(){
@@ -70,12 +88,19 @@ function timerFunction(){
 	// https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-
 	if (frameCount % 60 === 0 && timer > 0){ // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
 		timer--;
-	}else if(timer === 5){
-		setTimeout(swapBoolean(enemy.nowGo),59999)
+	}
+
+	if(frameCount%(5*60) === 0){
+		console.log('enemy goes now');
+		enemy.nowGo = true;
+		//setTimeout(swapBoolean(enemy.nowGo),60)
 		//setInterval(swapBoolean(enemy.nowGo),999);
 	}else if(timer === 0){
 		player.nowGo = true;
 		timer = 10;
+	}else{
+		//enemy.nowGo = false;
+		//enemy.nowGo = false;
 	}
 }
 
