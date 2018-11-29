@@ -16,6 +16,7 @@ function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
 
   this.flagsActive = false;
   this.nowGo = false;
+  this.timerStarted = false;
 }
 
 //take player input
@@ -55,7 +56,7 @@ Player.prototype.drawPlayer = function(){
 Player.prototype.drawDirectionArrows = function(timeLeft){
   if(this.flagsActive === true && this.deltaX != 0 || this.deltaY != 0){
     //map opacity of flag to countdown
-      fill(255,0,0,map(timeLeft,0,10,255,0));
+      fill(255,0,0,map(timeLeft,0,10,255,50));
       //draw movement flags
       ellipse(this.x+this.deltaX,this.y+this.deltaY,this.distance/2);
   }
@@ -63,7 +64,7 @@ Player.prototype.drawDirectionArrows = function(timeLeft){
 
 //push player movement in whatever direction chosen, then reset booleans to do it again
 Player.prototype.moveAfterWait = function(){
-  if(this.nowGo === true){
+  if(this.nowGo === true && (this.deltaX != 0 || this.deltaY != 0)){
     this.x += this.deltaX;
     this.y += this.deltaY;
     this.nowGo = false;
