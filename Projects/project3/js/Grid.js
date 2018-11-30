@@ -6,8 +6,6 @@ function Grid(seed,colorArray,tileSize) {
   this.colorArray = colorArray;
   this.tileSize = 50;
 
-  this.xx;
-  this.yy;
   this.dt = 1;
 
   this.playerIsCamo = true;
@@ -31,16 +29,44 @@ Grid.prototype.generateGrid = function(tilesReservedX,tilesReservedY) {
 
   //noLoop();
 }
-Grid.prototype.giveMeColorFromXY = function(xx,yy) {
+Grid.prototype.giveMeColorFromXY = function(aa,bb) {
+  var xx = aa/this.tileSize;
+  var yy = bb/this.tileSize;
+
   t = xx*this.dt + yy*(width/this.tileSize)*this.dt;
   c = this.colorArray[floor(map(noise(t),0,1,0,this.colorArray.length))];
   return c;
 }
 
-Grid.prototype.compareColors = function(playerColor, backgroundColor,playerInvisible){
-  if(playerColor === backgroundColor){
-    playerInvisible = true;
+Grid.prototype.compareColors = function(player, colorBehindPlayer,cBackgroundArray){
+  var r = red(player.playerColorCurrent);
+  var b = blue(player.playerColorCurrent);
+  var g = green(player.playerColorCurrent);
+  var playerColorArray = [r,g,b,255];
+  //console.log("player color is " + playerColorArray + " and background color is " + colorBehindPlayer +  " and that means player invisible boolean is " + player.playerInvisible);
+  if(playerColorArray[0] === colorBehindPlayer[0] && playerColorArray[1] === colorBehindPlayer[1] && playerColorArray[2] === colorBehindPlayer[2]){
+    player.playerInvisible = true;
+  //  console.log("player invisible is " + player.playerInvisible);
+  }else if(playerColorArray[0] === cBackgroundArray[0] && playerColorArray[1] === cBackgroundArray[1] && playerColorArray[2] === cBackgroundArray[2] && playerColorArray[3] === cBackgroundArray[3]){
+    player.playerInvisible = false;
+    player.playerColorCurrent = player.playerColorDefault;
+
   }else{
-    playerInvisible = false;
+    player.playerInvisible = false;
+  //  console.log("player invisible is " + player.playerInvisible);
   }
+
+
+}
+Grid.prototype.compareLocations = function(enemyArray, playerX,playerY){
+  for (var i = 0; i < enemyArray.length; i++) {
+          if(enemyArray[i].x === playerX && enemyArray[i].y === playerY){
+            background(0);
+    textAlign(CENTER,TOP);
+    noStroke();
+    fill(255,255,255);
+    textSize(66);
+    text("GAME OVER",width/2,height/5);
+          }
+        }
 }

@@ -13,11 +13,14 @@ function Enemy(x,y,distance) {
   this.gammaX = 0;
   this.gammaY = 0;
 
+  this.enemyColor = color(0,0,0);
+
   this.nowGo = false;
   this.timerStarted = false;
 }
 
-Enemy.prototype.findVector = function(playerX,playerY){
+Enemy.prototype.findVector = function(playerX,playerY,playerCamo){
+if(!playerCamo){
   if (playerX < this.x && playerY < this.y) {
     //player is up and to the left of enemy
     //console.log('player is up and to the left of enemy');
@@ -96,14 +99,16 @@ Enemy.prototype.findVector = function(playerX,playerY){
     this.alphaY = 0
     this.gammaX = 0
     this.gammaY = 0
-  }else{
+  }
+}else if(playerCamo === true){
     //who knows where player is? just randomly go somewhere
-    this.deltaX = this.distance;
-    this.deltaY = this.distance;
-    this.alphaX = this.distance;
-    this.alphaY = this.distance;
-    this.gammaX = this.distance;
-    this.gammaY = this.distance;
+    var randomArray = [this.distance,-this.distance,0,0];
+    this.deltaX = randomArray[Math.floor(random(0,4))];
+    this.deltaY = randomArray[Math.floor(random(0,4))];
+    this.alphaX = randomArray[Math.floor(random(0,4))];
+    this.alphaY = randomArray[Math.floor(random(0,4))];
+    this.gammaX = randomArray[Math.floor(random(0,4))];
+    this.gammaY = randomArray[Math.floor(random(0,4))];
   }
   /*console.log('player X read as ' + playerX + ' and player Y read as ' + playerY);
   console.log('delta X is ' + this.deltaX + ' and delta Y is ' + this.deltaY);
@@ -119,26 +124,38 @@ Enemy.prototype.findVector = function(playerX,playerY){
 }
 //draw the player object
 Enemy.prototype.drawEnemy = function(timer){
-  fill(0,0,255);
-  ellipse(this.x,this.y,this.distance/1.2);
+  fill(this.enemyColor);
+  ellipse(this.x,this.y,this.distance);
 }
 
 //draw markers for where it's going, to be used before a 'move' timer has counted down
 Enemy.prototype.drawDirectionArrows = function(timeLeft){
   //map opacity of flag to countdown
-  fill(0,255,255,100);
+  fill(this.enemyColor);
   if(this.deltaX != 0 || this.deltaY != 0){
 
     //draw movement flags
     ellipse(this.x+this.deltaX,this.y+this.deltaY,this.distance/2);
+    stroke(this.enemyColor);
+    strokeWeight(4);
+    line(this.x,this.y,this.x+this.deltaX,this.y+this.deltaY);
+    noStroke();
   }
   if(this.alphaX != 0 || this.alphaY != 0){
     //draw movement flags
     ellipse(this.x+this.alphaX,this.y+this.alphaY,this.distance/2);
+    stroke(this.enemyColor);
+    strokeWeight(4);
+    line(this.x,this.y,this.x+this.alphaX,this.y+this.alphaY);
+    noStroke();
   }
   if(this.gammaX != 0 || this.gammaY != 0){
     //draw movement flags
     ellipse(this.x+this.gammaX,this.y+this.gammaY,this.distance/2);
+    stroke(this.enemyColor);
+    strokeWeight(4);
+    line(this.x,this.y,this.x+this.gammaX,this.y+this.gammaY);
+    noStroke();
   }
 }
 
@@ -146,15 +163,15 @@ Enemy.prototype.drawDirectionArrows = function(timeLeft){
 Enemy.prototype.moveAfterWait = function(){
   if(this.nowGo === true){
     var diceRoll = random(0,1.2);
-    if(diceRoll << 0.4){
+    if(diceRoll < 0.4){
       this.x += this.deltaX;
       this.y += this.deltaY;
       this.resetAll();
-    }else if(diceRoll << 0.8 && diceRoll >> 0.4){
+    }else if(diceRoll < 0.8 && diceRoll > 0.4){
       this.x += this.alphaX;
       this.y += this.alphaY;
       this.resetAll();
-    }else if(diceRoll << 1.2 && diceRoll >> 0.8){
+    }else if(diceRoll < 1.2 && diceRoll > 0.8){
       this.x += this.gammaX;
       this.y += this.gammaY;
       this.resetAll();
