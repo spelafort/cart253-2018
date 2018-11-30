@@ -42,8 +42,8 @@ colors = [c1,c2,c3,c4,c5];
 	//canvas can be any size and grid can be generated
 	createCanvas(pointDistance*multiplier, pointDistance*multiplier/2);
 	//start at centre
-	startX = width/2;
-	startY = height/2;
+	startX = pointDistance;
+	startY = height - pointDistance;
 	noStroke();
 	//spawn a player object that will move through grids
 	enemy = new Enemy(pointDistance,pointDistance,pointDistance);
@@ -52,6 +52,7 @@ colors = [c1,c2,c3,c4,c5];
 	colorWheel = new ColorWheel(width-2*pointDistance,height/2,60,60,colors);
 
 	enemyArray = [enemy];
+	player.playerColorCurrent = player.playerColorDefault;
 
 
 
@@ -73,8 +74,8 @@ function draw() {
 	player.drawPlayer();
 	player.moveAfterWait();
 	//make sure player can't escape
-	player.x = constrain(player.x,0,width-pointDistance*tilesReservedX);
-	player.y = constrain(player.y,0,height-pointDistance*tilesReservedY);
+	player.x = constrain(player.x,0,width-pointDistance*tilesReservedY);
+	player.y = constrain(player.y,0,height-pointDistance*tilesReservedX);
 
 	//call enemy functions
 	enemy.findVector(player.x,player.y,player.playerInvisible);
@@ -86,6 +87,7 @@ function draw() {
 
 
 	grid.compareColors(player,currentColorBehindPlayerArray,cBackgroundArray);
+	grid.drawWinTile();
 
 	drawTimers();
 
@@ -116,9 +118,7 @@ function timerFunction(){
 	}else if(timer === 0){
 		player.nowGo = true;
 		timer = 10;
-	}else{
-		//enemy.nowGo = false;
-		//enemy.nowGo = false;
+		player.playerColorCurrent = player.playerColorDefault;
 	}
 }
 

@@ -13,7 +13,7 @@ function ColorWheel(x,y,w,h,colorArray) {
 //take player input
 ColorWheel.prototype.drawWheel = function(timer,pointDistance) {
 
-  if(this.y >= height - this.h || this.y <= this.h){
+  if(this.y >= height - this.h-pointDistance || this.y <= this.h+pointDistance){
     this.velocity = -this.velocity;
   }
   this.y += this.velocity;

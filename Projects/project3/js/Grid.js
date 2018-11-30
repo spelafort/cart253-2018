@@ -1,7 +1,7 @@
 //Grid objects
 
 // Sets the properties with the provided arguments or defaults
-function Grid(seed,colorArray,tileSize) {
+function Grid(seed,colorArray) {
   this.seed = seed;
   this.colorArray = colorArray;
   this.tileSize = 50;
@@ -69,4 +69,8 @@ Grid.prototype.compareLocations = function(enemyArray, playerX,playerY){
     text("GAME OVER",width/2,height/5);
           }
         }
+}
+
+Grid.prototype.drawWinTile = function(){
+fill(random(0,255));
 }

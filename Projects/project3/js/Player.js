@@ -78,7 +78,9 @@ Player.prototype.drawDirectionArrows = function(timeLeft){
 
 //push player movement in whatever direction chosen, then reset booleans to do it again
 Player.prototype.moveAfterWait = function(){
-  if(this.nowGo === true && (this.deltaX != 0 || this.deltaY != 0)){
+
+  if(player.playerColorCurrent === player.playerColorDefault){
+  if(this.nowGo === true){
     this.x += this.deltaX;
     this.y += this.deltaY;
     this.nowGo = false;
@@ -86,11 +88,16 @@ Player.prototype.moveAfterWait = function(){
     this.deltaX = 0;
     this.deltaY = 0;
   }
+}else if(player.playerColorCurrent != player.playerColorDefault){
+console.log('player is not default color')
+this.deltaX = 0;
+this.deltaY = 0;
+}
 }
 
 //check for color input, change color accordingly
 Player.prototype.changeColor = function(colorClicked,cBackground){
-  if(this.nowGo === true && (this.deltaX != 0 || this.deltaY != 0)){
+  if(this.nowGo === true){
     this.x += this.deltaX;
     this.y += this.deltaY;
     this.nowGo = false;
