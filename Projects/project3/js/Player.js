@@ -36,17 +36,13 @@ Player.prototype.keyPressed = function() {
     this.deltaY += -this.distance;
   }
   else if (keyCode === this.downKey) {
-    console.log('down key pressed');
     this.flagsActive = true;
     this.deltaY += this.distance;
   }else if (keyCode === this.leftKey){
-    console.log('left key pressed');
     this.flagsActive = true;
     this.deltaX += -this.distance;
   }else if (keyCode === this.rightKey){
-    console.log('right key pressed');
     this.flagsActive = true;
-    //this.x += this.distance;
     this.deltaX += this.distance;
   }
 
@@ -57,12 +53,14 @@ Player.prototype.keyPressed = function() {
 }
 //draw the player object
 Player.prototype.drawPlayer = function(){
+  //draw player tile
   stroke(this.playerColorDefault);
   strokeWeight(3);
   fill(this.playerColorCurrent);
   ellipse(this.x,this.y,this.distance);
   noStroke();
 
+//draw player sprite and animation at proper rotation
   if(this.deltaX > 0 && this.deltaY === 0){
     this.sprite.rotation = 90;
   }else if(this.deltaX > 0 && this.deltaY > 0){

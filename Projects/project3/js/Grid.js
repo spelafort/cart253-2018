@@ -9,6 +9,9 @@ function Grid(seed,colorArray) {
   this.dt = 1;
 
   this.playerIsCamo = true;
+
+  this.winTileX;
+  this.winTileY;
 }
 
 //take player input
@@ -75,5 +78,5 @@ Grid.prototype.compareLocations = function(enemyArray, playerX,playerY){
 }
 
 Grid.prototype.drawWinTile = function(){
-fill(random(0,255));
+
 }
