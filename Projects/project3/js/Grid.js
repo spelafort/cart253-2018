@@ -38,6 +38,7 @@ Grid.prototype.giveMeColorFromXY = function(aa,bb) {
   return c;
 }
 
+
 Grid.prototype.compareColors = function(player, colorBehindPlayer,cBackgroundArray){
   var r = red(player.playerColorCurrent);
   var b = blue(player.playerColorCurrent);
@@ -46,13 +47,15 @@ Grid.prototype.compareColors = function(player, colorBehindPlayer,cBackgroundArr
   //console.log("player color is " + playerColorArray + " and background color is " + colorBehindPlayer +  " and that means player invisible boolean is " + player.playerInvisible);
   if(playerColorArray[0] === colorBehindPlayer[0] && playerColorArray[1] === colorBehindPlayer[1] && playerColorArray[2] === colorBehindPlayer[2]){
     player.playerInvisible = true;
-  //  console.log("player invisible is " + player.playerInvisible);
+    player.animation.stop();
   }else if(playerColorArray[0] === cBackgroundArray[0] && playerColorArray[1] === cBackgroundArray[1] && playerColorArray[2] === cBackgroundArray[2] && playerColorArray[3] === cBackgroundArray[3]){
     player.playerInvisible = false;
     player.playerColorCurrent = player.playerColorDefault;
+    player.animation.play();
 
   }else{
     player.playerInvisible = false;
+    player.animation.play();
   //  console.log("player invisible is " + player.playerInvisible);
   }
 

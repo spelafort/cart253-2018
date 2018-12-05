@@ -15,6 +15,9 @@ function Enemy(x,y,distance) {
 
   this.enemyColor = color(0,0,0);
 
+  this.sprite;
+  this.animation;
+
   this.nowGo = false;
   this.timerStarted = false;
 }
@@ -61,44 +64,44 @@ if(!playerCamo){
     this.gammaY = this.distance;
   }else if (playerX === this.x && playerY > this.y){
     //player is directly below enemy
-    this.deltaX = 0
+    this.deltaX = 0;
     this.deltaY = this.distance;
-    this.alphaX = 0
+    this.alphaX = 0;
     this.alphaY = this.distance;
     this.gammaX = 0;
     this.gammaY = this.distance;
   }else if (playerX === this.x && playerY < this.y){
     //player is directly above enemy
-    this.deltaX = 0
+    this.deltaX = 0;
     this.deltaY = -this.distance;
-    this.alphaX = 0
+    this.alphaX = 0;
     this.alphaY = -this.distance;
     this.gammaX = 0;
     this.gammaY = -this.distance;
   }else if (playerY === this.y && playerX < this.x){
     //player is directly to left of enemy
     this.deltaX = -this.distance;
-    this.deltaY = 0
+    this.deltaY = 0;
     this.alphaX = -this.distance;
-    this.alphaY = 0
+    this.alphaY = 0;
     this.gammaX = -this.distance;
-    this.gammaY = 0
+    this.gammaY = 0;
   }else if (playerY === this.y && playerX > this.x){
     //player is directly to left of enemy
     this.deltaX = this.distance;
-    this.deltaY = 0
+    this.deltaY = 0;
     this.alphaX = this.distance;
-    this.alphaY = 0
+    this.alphaY = 0;
     this.gammaX = this.distance;
-    this.gammaY = 0
+    this.gammaY = 0;
   }else if (playerY === this.y && playerX === this.x){
     //player is directly on top of enemy
-    this.deltaX = 0
-    this.deltaY = 0
-    this.alphaX = 0
-    this.alphaY = 0
-    this.gammaX = 0
-    this.gammaY = 0
+    this.deltaX = 0;
+    this.deltaY = 0;
+    this.alphaX = 0;
+    this.alphaY = 0;
+    this.gammaX = 0;
+    this.gammaY = 0;
   }
 }else if(playerCamo === true){
     //who knows where player is? just randomly go somewhere
@@ -109,6 +112,26 @@ if(!playerCamo){
     this.alphaY = randomArray[Math.floor(random(0,4))];
     this.gammaX = randomArray[Math.floor(random(0,4))];
     this.gammaY = randomArray[Math.floor(random(0,4))];
+  }
+
+  if(!playerCamo){
+    if(this.deltaX > 0 && this.deltaY === 0){
+      this.sprite.rotation = 90;
+    }else if(this.deltaX > 0 && this.deltaY > 0){
+      this.sprite.rotation = 120;
+    }else if(this.deltaX > 0 && this.deltaY < 0){
+      this.sprite.rotation = 45;
+    }else if(this.deltaX === 0 && this.deltaY < 0){
+      this.sprite.rotation = 0;
+    }else if(this.deltaX === 0 && this.deltaY > 0){
+      this.sprite.rotation = 180;
+    }else if(this.deltaX < 0 && this.deltaY < 0){
+      this.sprite.rotation = -45;
+    }else if(this.deltaX < 0 && this.deltaY === 0){
+      this.sprite.rotation = -90;
+    }else if(this.deltaX < 0 && this.deltaY > 0){
+      this.sprite.rotation = -120;
+    }
   }
   /*console.log('player X read as ' + playerX + ' and player Y read as ' + playerY);
   console.log('delta X is ' + this.deltaX + ' and delta Y is ' + this.deltaY);
@@ -126,6 +149,9 @@ if(!playerCamo){
 Enemy.prototype.drawEnemy = function(timer){
   fill(this.enemyColor);
   ellipse(this.x,this.y,this.distance);
+
+
+
 }
 
 //draw markers for where it's going, to be used before a 'move' timer has counted down

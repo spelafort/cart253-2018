@@ -21,6 +21,9 @@ function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
   this.playerColorCurrent = color(255,255,255,255);
   this.playerInvisible = false;
 
+  this.sprite;
+  this.animation;
+
 }
 
 //take player input
@@ -59,6 +62,29 @@ Player.prototype.drawPlayer = function(){
   fill(this.playerColorCurrent);
   ellipse(this.x,this.y,this.distance);
   noStroke();
+
+  if(this.deltaX > 0 && this.deltaY === 0){
+    this.sprite.rotation = 90;
+  }else if(this.deltaX > 0 && this.deltaY > 0){
+    this.sprite.rotation = 120;
+  }else if(this.deltaX > 0 && this.deltaY < 0){
+    this.sprite.rotation = 45;
+  }else if(this.deltaX === 0 && this.deltaY < 0){
+    this.sprite.rotation = 0;
+  }else if(this.deltaX === 0 && this.deltaY > 0){
+    this.sprite.rotation = 180;
+  }else if(this.deltaX < 0 && this.deltaY < 0){
+    this.sprite.rotation = -45;
+  }else if(this.deltaX < 0 && this.deltaY === 0){
+    this.sprite.rotation = -90;
+  }else if(this.deltaX < 0 && this.deltaY > 0){
+    this.sprite.rotation = -120;
+  }
+
+
+
+
+
 }
 
 //draw markers for where it's going, to be used before a 'move' timer has counted down
@@ -93,16 +119,5 @@ console.log('player is not default color')
 this.deltaX = 0;
 this.deltaY = 0;
 }
-}
 
-//check for color input, change color accordingly
-Player.prototype.changeColor = function(colorClicked,cBackground){
-  if(this.nowGo === true){
-    this.x += this.deltaX;
-    this.y += this.deltaY;
-    this.nowGo = false;
-    this.flagsActive = false;
-    this.deltaX = 0;
-    this.deltaY = 0;
-  }
 }

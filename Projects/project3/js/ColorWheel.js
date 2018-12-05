@@ -17,8 +17,8 @@ ColorWheel.prototype.drawWheel = function(timer,pointDistance) {
     this.velocity = -this.velocity;
   }
   this.y += this.velocity;
-  console.log('y is ' + this.y);
-  console.log('velocity is ' + this.velocity);
+  //console.log('y is ' + this.y);
+  //console.log('velocity is ' + this.velocity);
   fill(255,255,255,255);
   ellipse(this.x,this.y,this.w*2,this.h*2);
 

@@ -31,7 +31,13 @@ var currentColorBehindPlayerArray;
 
 var cBackgroundArray = [92,88,76,255];
 
+var playerSprite;
+var playerAnimation;
+var enemySprite;
+var enemyAnimation;
+
 function setup() {
+
 
 var c1 = color(255,204,0,255);
 var c2 = color(158,189,132,255);
@@ -53,6 +59,19 @@ colors = [c1,c2,c3,c4,c5];
 
 	enemyArray = [enemy];
 	player.playerColorCurrent = player.playerColorDefault;
+
+	//player sprite with animation using p5.play Library
+  playerSprite = createSprite(player.x,player.y,pointDistance,pointDistance);
+	player.sprite = playerSprite;
+	playerSprite.rotation = 0;
+ 	playerAnimation = playerSprite.addAnimation('playerwalk', 'assets/images/jbug_0.png','assets/images/jbug_6.png');
+	player.animation = playerAnimation;
+
+	enemySprite = createSprite(enemy.x,enemy.y,pointDistance,pointDistance);
+	enemy.sprite = enemySprite;
+	enemySprite.rotation = 0;
+ 	enemyAnimation = enemySprite.addAnimation('enemywalk', 'assets/images/spider_0.png','assets/images/spider_2.png');
+
 
 
 
@@ -99,6 +118,12 @@ function draw() {
 		player.playerColorCurrent = clickedColor;
 	}
 
+	playerSprite.position.x = player.x;
+	playerSprite.position.y = player.y;
+	enemySprite.position.x = enemy.x;
+		enemySprite.position.y = enemy.y;
+	drawSprites();
+
 
 }
 
@@ -139,12 +164,20 @@ function drawTimers(){
 	textSize(15);
 	timerFunction();
 	//display timers for enemies and player
-	text(timer, player.x+player.deltaX,player.y+player.deltaY);
+	if(abs(player.deltaX) > 0 || abs(player.deltaY) > 0){
+		text(timer, player.x+player.deltaX,player.y+player.deltaY);
+	}
 	fill(255,255,255,255);
 	if(player.playerInvisible === false){
-		text(Math.floor(timer), enemy.x+enemy.deltaX,enemy.y+enemy.deltaY);
-		text(Math.floor(timer), enemy.x+enemy.alphaX,enemy.y+enemy.alphaY);
-		text(Math.floor(timer), enemy.x+enemy.gammaX,enemy.y+enemy.gammaY);
+		if(abs(enemy.deltaX) > 0 || abs(enemy.deltaY) > 0){
+			text(Math.floor(timer), enemy.x+enemy.deltaX,enemy.y+enemy.deltaY);
+		}
+		if(abs(enemy.alphaX) > 0 || abs(enemy.alphaY) > 0){
+			text(Math.floor(timer), enemy.x+enemy.alphaX,enemy.y+enemy.alphaY);
+		}
+		if(abs(enemy.gammaX) > 0 || abs(enemy.gammaY) > 0){
+			text(Math.floor(timer), enemy.x+enemy.gammaX,enemy.y+enemy.gammaY);
+		}
 	}else if(player.playerInvisible === true){
 		text("??", enemy.x+enemy.deltaX,enemy.y+enemy.deltaY);
 		text("??", enemy.x+enemy.alphaX,enemy.y+enemy.alphaY);
@@ -152,7 +185,10 @@ function drawTimers(){
 	}
 }
 
+//game handler function, will bring player through various gamestates
+function gameHandler(){
 
+}
 
 //to ensure that input isn't taken 1 billion times, call it from keyPressed
 function keyPressed(){
