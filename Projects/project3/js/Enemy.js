@@ -147,6 +147,12 @@ if(!playerCamo){
 }
 //draw the player object
 Enemy.prototype.drawEnemy = function(timer){
+  //make sure player is actually on a tile; had to do this to solve a weird bug
+  if(this.x % this.distance != 0 || this.y % this.distance != 0){
+    this.x = Math.floor(this.x/this.distance)*this.distance;
+    this.y = Math.floor(this.y/this.distance)*this.distance;
+  }
+  
   fill(this.enemyColor);
   ellipse(this.x,this.y,this.distance);
 

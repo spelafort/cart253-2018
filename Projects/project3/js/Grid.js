@@ -65,16 +65,7 @@ Grid.prototype.compareColors = function(player, colorBehindPlayer,cBackgroundArr
 
 }
 Grid.prototype.compareLocations = function(enemyArray, playerX,playerY){
-  for (var i = 0; i < enemyArray.length; i++) {
-          if(enemyArray[i].x === playerX && enemyArray[i].y === playerY){
-            background(0);
-    textAlign(CENTER,TOP);
-    noStroke();
-    fill(255,255,255);
-    textSize(66);
-    text("GAME OVER",width/2,height/5);
-          }
-        }
+
 }
 
 Grid.prototype.drawWinTile = function(){

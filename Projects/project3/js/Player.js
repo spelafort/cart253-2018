@@ -102,6 +102,10 @@ Player.prototype.drawDirectionArrows = function(timeLeft){
 
 //push player movement in whatever direction chosen, then reset booleans to do it again
 Player.prototype.moveAfterWait = function(){
+  if(this.x % this.distance != 0 || this.y % this.distance != 0){
+    this.x = Math.floor(this.x/this.distance)*this.distance;
+    this.y = Math.floor(this.y/this.distance)*this.distance;
+  }
 
   if(player.playerColorCurrent === player.playerColorDefault){
   if(this.nowGo === true){
