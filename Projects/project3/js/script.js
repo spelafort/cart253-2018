@@ -6,7 +6,7 @@
 //distance between points
 var pointDistance = 50;
 //size of canvas multiplier, aka the number of columns that COULD fit on the screen
-var multiplier = 20;
+var multiplier =20;
 //number of columns reserved for moving color wheel
 var numberReservedColumns = 4;
 
@@ -30,6 +30,8 @@ var winTileX;
 var winTileY;
 var winTileSprite;
 var wineTileAnimation;
+//total number of tiles
+var tilesTotal
 
 //grid object
 var grid;
@@ -67,8 +69,8 @@ function preload() {
 }
 
 function setup() {
+  tilesTotal = Math.floor(width/pointDistance)+ Math.floor(height/pointDistance);
   textFont('jose');
-  var tilesTotal = (height/pointDistance )*(width/pointDistance- numberReservedColumns);
   enemiesTotal = Math.floor(random(1,6));
   //declare arrays so they are defined as arrays
   enemySpriteArray = [];
@@ -95,9 +97,11 @@ function setup() {
   startX = pointDistance;
   startY = height - pointDistance;
 
-  //set goal to be opposite corner of the grid
-  winTileX = Math.floor(random(Math.floor(random(multiplier- numberReservedColumns,multiplier/2)),multiplier - numberReservedColumns - 1))*pointDistance
+  //set goal to be opposite corner of the grid (ish)
+  winTileX = Math.floor((width/pointDistance)-numberReservedColumns-1)*pointDistance;
   winTileY = pointDistance*Math.floor(random(1,4));
+  winTileX = constrain(winTileX,pointDistance,width-pointDistance*numberReservedColumns);
+  winTileY = constrain(winTileY,pointDistance,height-pointDistance);
 
   //spawn a player object that will move through grids
   player = new Player(startX,startY,pointDistance,83,87,65,68);
@@ -148,8 +152,8 @@ function draw() {
     fill(255);
     textSize(35);
     text("(turn based and wheel time)", width/2, 175);
-    textSize(25);
-    text("You are a bug racing towards home; but you move after _10_ seconds, your enemies after _5_ seconds", width/2,225);
+    textSize(20);
+    text("You are a bug racing towards home; you move after _10_ seconds, your enemies after _5_ seconds", width/2,250);
     text("You must concentrate to change your color and match your tile to throw them off", width/2,275);
       text("And careful: you can't move once you've changed colors-- click on white to reset", width/2,385);
     text("[[WASD to choose a direction, mouse to click the colorwheel]]", width/2,333);
@@ -420,8 +424,11 @@ function resetGame(){
   player.x = startX;
   player.y = startY;
   //reset house
-  winTileX = Math.floor(random(Math.floor(random(multiplier- numberReservedColumns,multiplier/2)),multiplier - numberReservedColumns - 1))*pointDistance
+  //set goal to be opposite corner of the grid (ish)
+  winTileX = Math.floor((width/pointDistance)-numberReservedColumns-1)*pointDistance;
   winTileY = pointDistance*Math.floor(random(1,4));
+  winTileX = constrain(winTileX,pointDistance,width-pointDistance*numberReservedColumns);
+  winTileY = constrain(winTileY,pointDistance,height-pointDistance);
 }
 
 //to ensure that input isn't taken 1 billion times, call it from keyPressed
