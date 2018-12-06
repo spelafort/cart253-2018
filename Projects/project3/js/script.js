@@ -20,7 +20,7 @@ var startY;
 
 //enemy objects
 //number of enemies total
-var enemiesTotal = 5;
+var enemiesTotal;
 var enemyArray;
 var enemySpriteArray;
 var enemyAnimationArray;
@@ -54,13 +54,22 @@ var gameOn = false;
 var gameWin = false;
 var gameLose = false;
 
+//font variables
+var josefin;
+
 function preload() {
+  jose = loadFont("assets/fonts/jose.ttf");
   music = new Audio("assets/sounds/Minnie.m4a");
   move1 = new Audio("assets/sounds/DM-CGS-46 copy.wav");
   move2 = new Audio("assets/sounds/DM-CGS-47 copy.wav");
+  winSound = new Audio("assets/sounds/win.wav");
+  loseSound = new Audio("assets/sounds/lose.wav");
 }
 
 function setup() {
+  textFont('jose');
+  var tilesTotal = (height/pointDistance )*(width/pointDistance- numberReservedColumns);
+  enemiesTotal = Math.floor(random(1,6));
   //declare arrays so they are defined as arrays
   enemySpriteArray = [];
   enemyAnimationArray = [];
@@ -86,13 +95,9 @@ function setup() {
   startX = pointDistance;
   startY = height - pointDistance;
 
-  /*//set goal to be opposite corner of the grid
+  //set goal to be opposite corner of the grid
   winTileX = Math.floor(random(Math.floor(random(multiplier- numberReservedColumns,multiplier/2)),multiplier - numberReservedColumns - 1))*pointDistance
-  winTileY = pointDistance*Math.floor(random(1,4));*/
-  winTileX = pointDistance*4;
-  winTileY = pointDistance*5;
-
-
+  winTileY = pointDistance*Math.floor(random(1,4));
 
   //spawn a player object that will move through grids
   player = new Player(startX,startY,pointDistance,83,87,65,68);
@@ -139,16 +144,16 @@ function draw() {
     noStroke();
     fill(255,0,0);
     textSize(66);
-    text("JITTERBUG",width/2,height/5);
+    text("JITTERBUG",width/2,height/6);
     fill(255);
     textSize(35);
-    text("turn based! real time! who knows!", width/2, 175);
+    text("(turn based and wheel time)", width/2, 175);
     textSize(25);
-    text("You are a bug racing towards home, but you are slow slow slower than your enemies.", width/2,225);
+    text("You are a bug racing towards home; but you move after _10_ seconds, your enemies after _5_ seconds", width/2,225);
     text("You must concentrate to change your color and match your tile to throw them off", width/2,275);
-      text("But you can't move when you've changed-- click white or beside color wheel to reset", width/2,385);
-    text("WASD to choose a direction, mouse to click the colorwheel", width/2,333);
-    text("Music_by_Eric_Schafenacker", width/2,385);
+      text("And careful: you can't move once you've changed colors-- click on white to reset", width/2,385);
+    text("[[WASD to choose a direction, mouse to click the colorwheel]]", width/2,333);
+    text("Music_by_Eric_Schafenacker", width/2,height-100);
     fill(255,0,0);
     text("PRESS ENTER TO CONTINUE", width/2,433);
 
@@ -159,6 +164,77 @@ function draw() {
       gameWin = false;
       gameLose = false;
       music.play();
+    }else if(keyCode === 49 && gameOn === false){
+      enemiesTotal =1;
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+    }else if(keyCode === 50 && gameOn === false){
+      enemiesTotal =2;
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+
+    }else if(keyCode === 51 && gameOn === false){
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+      enemiesTotal =3;
+    }else if(keyCode === 52 && gameOn === false){
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+      enemiesTotal =4;
+    }else if(keyCode === 53 && gameOn === false){
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+      enemiesTotal =5;
+    }else if(keyCode === 54 && gameOn === false){
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+      enemiesTotal =6;
+    }else if(keyCode === 55 && gameOn === false){
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+      enemiesTotal =7;
+    }else if(keyCode === 56 && gameOn === false){
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+      enemiesTotal =8;
+    }else if(keyCode === 57 && gameOn === false){
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+      enemiesTotal =9;
+    }else if(keyCode === 48 && gameOn === false){
+      gameOn = true;
+      titleScreen = false;
+      gameWin = false;
+      gameLose = false;
+      music.play();
+      enemiesTotal =0;
     }
 
   }else if(gameOn === true){
@@ -169,9 +245,8 @@ function draw() {
     //generate grid itself and run its functions
     grid.generateGrid(1,numberReservedColumns);
     currentColorBehindPlayerArray = get(player.x,player.y);
-    grid.compareLocations(enemyArray, player.x,player.y);
+    //grid.compareLocations(enemyArray, player.x,player.y);
     grid.compareColors(player,currentColorBehindPlayerArray,cBackgroundArray);
-    grid.drawWinTile();
 
     //call player functions
     player.drawDirectionArrows(timer);
@@ -188,7 +263,7 @@ function draw() {
       enemyArray[i].findVector(player.x,player.y,player.playerInvisible);
       enemyArray[i].drawEnemy();
       enemyArray[i].drawDirectionArrows(timer);
-      //enemyArray[i].moveAfterWait();
+      enemyArray[i].moveAfterWait();
       enemyArray[i].x = constrain(enemyArray[i].x,pointDistance,width-pointDistance*numberReservedColumns);
       enemyArray[i].y = constrain(enemyArray[i].y,pointDistance,height-pointDistance);
     }
@@ -201,14 +276,17 @@ function draw() {
     //make timers for player and enemies
     drawTimers();
     //draw the color wheel
-    colorWheel.drawWheel(timer,pointDistance);
+    colorWheel.drawWheel(timer,pointDistance,numberReservedColumns);
 
     //change color if player clicks on the color wheel
     if(mouseIsPressed && mouseX >= width-pointDistance*numberReservedColumns){
       clickedColor = get(mouseX,mouseY);
       player.playerColorCurrent = clickedColor;
     }
+
     //draw sprites last
+    winTileSprite.position.x = winTileX;
+    winTileSprite.position.y = winTileY;
     drawSprites();
 
     for (var i = 0; i < enemyArray.length; i++) {
@@ -229,9 +307,8 @@ function draw() {
     }
 
 
-
-
   }else if(gameWin === true){
+    winSound.play();
     titleScreen = false;
     gameOn = false;
     gameLose = false;
@@ -242,7 +319,15 @@ function draw() {
     textSize(66);
     text("YOU WIN! PRESS ENTER TO RESTART.",width/2,height/5);
     drawSprites();
+    if (keyCode === ENTER){
+    resetGame();
+    gameOn = true;
+
+    }
+
+
   }else if(gameLose === true){
+    loseSound.play();
     titleScreen = false;
     gameOn = false;
     gameWin = false;

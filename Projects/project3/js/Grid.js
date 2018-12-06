@@ -56,18 +56,16 @@ Grid.prototype.compareColors = function(player, colorBehindPlayer,cBackgroundArr
     player.playerColorCurrent = player.playerColorDefault;
     player.animation.play();
 
+  }else if(playerColorArray[0] === 255 && playerColorArray[1] === 255 && playerColorArray[2] === 255 && playerColorArray[3] === 255){
+    player.playerInvisible = false;
+    player.playerColorCurrent = player.playerColorDefault;
+    player.animation.play();
+
   }else{
     player.playerInvisible = false;
     player.animation.play();
   //  console.log("player invisible is " + player.playerInvisible);
   }
 
-
-}
-Grid.prototype.compareLocations = function(enemyArray, playerX,playerY){
-
-}
-
-Grid.prototype.drawWinTile = function(){
 
 }

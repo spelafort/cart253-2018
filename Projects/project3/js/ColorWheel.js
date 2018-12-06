@@ -11,7 +11,7 @@ function ColorWheel(x,y,w,h,colorArray) {
 }
 
 //take player input when clicked
-ColorWheel.prototype.drawWheel = function(timer,pointDistance) {
+ColorWheel.prototype.drawWheel = function(timer,pointDistance,numberReservedColumns) {
   //make it move, because I'm a jerk
   if(this.y >= height - this.h-pointDistance || this.y <= this.h+pointDistance){
     this.velocity = -this.velocity;
@@ -20,6 +20,9 @@ ColorWheel.prototype.drawWheel = function(timer,pointDistance) {
 
   //set background color to white
   fill(255,255,255,255);
+  noStroke();
+  rectMode(CENTER);
+  rect(this.x,this.y,numberReservedColumns*pointDistance-pointDistance,height*4);
   ellipse(this.x,this.y,this.w*2,this.h*2);
 
   //fill in the other colors, and make them rotate because I am a HUGE jerk

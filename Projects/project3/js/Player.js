@@ -2,25 +2,32 @@
 
 // Sets the properties with the provided arguments or defaults
 function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
+  //position
   this.x = x;
   this.y = y;
   //describes change in X and Y values for player movement
   this.deltaX = 0;
   this.deltaY = 0;
 
+  //input
   this.distance = distance;
   this.downKey = downKey;
   this.upKey = upKey;
   this.leftKey = leftKey;
   this.rightKey = rightKey;
 
+  //directional markers and 'go now' boolean
   this.flagsActive = false;
   this.nowGo = false;
 
+  //player color data
   this.playerColorDefault = color(255,255,255,255);
   this.playerColorCurrent = color(255,255,255,255);
+
+  //is the player visible to enemies?
   this.playerInvisible = false;
 
+  //player sprite data
   this.sprite;
   this.animation;
 
@@ -29,7 +36,6 @@ function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
 //take player input
 Player.prototype.keyPressed = function() {
   if (keyCode === this.upKey) {
-    console.log('up key pressed');
     //activate directional arrows
     this.flagsActive = true;
     //store change in X and Y relative to the 'grid'
@@ -53,6 +59,7 @@ Player.prototype.keyPressed = function() {
 }
 //draw the player object
 Player.prototype.drawPlayer = function(){
+  console.log(this.playerColorCurrent);
   //draw player tile
   stroke(this.playerColorDefault);
   strokeWeight(3);
@@ -102,11 +109,12 @@ Player.prototype.drawDirectionArrows = function(timeLeft){
 
 //push player movement in whatever direction chosen, then reset booleans to do it again
 Player.prototype.moveAfterWait = function(){
+  //make sure player is actually on a tile; had to do this to solve a weird bug
   if(this.x % this.distance != 0 || this.y % this.distance != 0){
     this.x = Math.floor(this.x/this.distance)*this.distance;
     this.y = Math.floor(this.y/this.distance)*this.distance;
   }
-
+  //if color is default, player can move
   if(player.playerColorCurrent === player.playerColorDefault){
   if(this.nowGo === true){
     this.x += this.deltaX;
@@ -116,8 +124,8 @@ Player.prototype.moveAfterWait = function(){
     this.deltaX = 0;
     this.deltaY = 0;
   }
+  //if player color is not default, player can't move
 }else if(player.playerColorCurrent != player.playerColorDefault){
-console.log('player is not default color')
 this.deltaX = 0;
 this.deltaY = 0;
 }
