@@ -1,7 +1,9 @@
-//Experiment in timed, turn-based movement: input using UP/DOWN/LEFT/RIGHT arrows, but the player
-//only moves after the countdown is at zero (stressful turn-based); will add enemies next, and they will move
-//at BOTH zero and half of the timer value. Basically the enemies will be able to outpace you, and so you will
-//need to hide yourself by changing your colors
+//JITTERBUG: A FAKE GAME BECOME REAL
+//
+//JITTERBUG asks you to pay attention to many things at once. You need to move,
+//dodge enemies, remember the timing, remember the color of the tile you're on, and
+//balance the twitchiness of realtime (color wheel and countdown) with the planning And
+//tension of a turn-based game. Made using p5.js and p5.play libraries (latter mostly to get sprite animation working)
 
 //distance between points
 var pointDistance = 50;
@@ -143,6 +145,7 @@ function setup() {
 function draw() {
   if(titleScreen === true){
     // Prepare our typography and type title page
+    //also describe how to play the damn thing
     background(0);
     textAlign(CENTER,TOP);
     noStroke();

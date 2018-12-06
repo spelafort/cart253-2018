@@ -12,21 +12,19 @@ function Enemy(x,y,distance) {
   this.alphaY = 0;
   this.gammaX = 0;
   this.gammaY = 0;
-
+  //enemy color is black
   this.enemyColor = color(0,0,0);
-
+  //stores enemy sprite and animation
   this.sprite;
   this.animation;
-
+  //make the enemy go or stop
   this.nowGo = false;
-  this.timerStarted = false;
 }
 
 Enemy.prototype.findVector = function(playerX,playerY,playerCamo){
 if(!playerCamo){
   if (playerX < this.x && playerY < this.y) {
     //player is up and to the left of enemy
-    //console.log('player is up and to the left of enemy');
     //store change in X and Y relative to the 'grid'
     this.deltaX = -this.distance;
     this.deltaY = -this.distance;
@@ -37,7 +35,6 @@ if(!playerCamo){
   }
   else if (playerX > this.x && playerY < this.y) {
     //player is up and to the right of enemy
-    //console.log('player is up and to the right of enemy');
     this.deltaX = this.distance;
     this.deltaY = -this.distance;
     this.alphaX = 0;
@@ -46,7 +43,6 @@ if(!playerCamo){
     this.gammaY = 0;
   }else if (playerX < this.x && playerY > this.y){
     //player is down and to the left of enemy
-    //console.log('player is down and to the left of enemy');
     this.deltaX = -this.distance;
     this.deltaY = this.distance;
     this.alphaX = 0;
@@ -55,7 +51,6 @@ if(!playerCamo){
     this.gammaY = 0;
   }else if (playerX > this.x && playerY > this.y){
     //player is down and to the right of enemy
-    //console.log('player is down and to the right of enemy');
     this.deltaX = this.distance;
     this.deltaY = this.distance;
     this.alphaX = this.distance;
@@ -104,7 +99,7 @@ if(!playerCamo){
     this.gammaY = 0;
   }
 }else if(playerCamo === true){
-    //who knows where player is? just randomly go somewhere
+    //who knows where player is? just randomly go somewhere, you dummy
     var randomArray = [this.distance,-this.distance,0,0];
     this.deltaX = randomArray[Math.floor(random(0,4))];
     this.deltaY = randomArray[Math.floor(random(0,4))];
@@ -113,7 +108,7 @@ if(!playerCamo){
     this.gammaX = randomArray[Math.floor(random(0,4))];
     this.gammaY = randomArray[Math.floor(random(0,4))];
   }
-
+  //rotate sprite according to vector
   if(!playerCamo){
     if(this.deltaX > 0 && this.deltaY === 0){
       this.sprite.rotation = 90;
@@ -133,26 +128,14 @@ if(!playerCamo){
       this.sprite.rotation = -120;
     }
   }
-  /*console.log('player X read as ' + playerX + ' and player Y read as ' + playerY);
-  console.log('delta X is ' + this.deltaX + ' and delta Y is ' + this.deltaY);
-  console.log('alpha X is ' + this.alphaX + ' and alpha Y is ' + this.alphaY);
-  console.log('gamma X is ' + this.gammaX + ' and gamma Y is ' + this.gammaY);
-  //make sure that change in X and Y does not go further than one point on the grid
-  /*this.deltaX = constrain(this.deltaX, -this.distance, this.distance)
-  this.deltaY = constrain(this.deltaY, -this.distance, this.distance)
-  this.alphaX = constrain(this.alphaX, -this.distance, this.distance)
-  this.alphaY = constrain(this.alphaY, -this.distance, this.distance)
-  this.gammaX = constrain(this.gammaX, -this.distance, this.distance)
-  this.gammaY = constrain(this.gammaY, -this.distance, this.distance)*/
 }
-//draw the player object
+//draw the enemy object
 Enemy.prototype.drawEnemy = function(timer){
   //make sure player is actually on a tile; had to do this to solve a weird bug
   if(this.x % this.distance != 0 || this.y % this.distance != 0){
     this.x = Math.floor(this.x/this.distance)*this.distance;
     this.y = Math.floor(this.y/this.distance)*this.distance;
   }
-  
   fill(this.enemyColor);
   ellipse(this.x,this.y,this.distance);
 
@@ -211,7 +194,7 @@ Enemy.prototype.moveAfterWait = function(){
   }
 
 }
-
+//reset enemy after a 'go'
 Enemy.prototype.resetAll = function(){
   this.nowGo = false;
   this.deltaX = 0;
