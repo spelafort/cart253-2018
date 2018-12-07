@@ -159,7 +159,6 @@ function setup() {
 }
 
 function draw() {
-  player.nowGo = true;
   if(titleScreen === true){
     // Prepare our typography and type title page
     //also describe how to play the damn thing
