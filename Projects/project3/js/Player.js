@@ -1,7 +1,7 @@
 //Player objects
 
 // Sets the properties with the provided arguments or defaults
-function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
+function Player(x,y,distance,downKey,upKey,leftKey,rightKey,sound) {
   //position
   this.x = x;
   this.y = y;
@@ -31,23 +31,30 @@ function Player(x,y,distance,downKey,upKey,leftKey,rightKey) {
   this.sprite;
   this.animation;
 
+  //player sound
+  this.sound = sound;
+
 }
 
 //take player input
 Player.prototype.keyPressed = function() {
   if (keyCode === this.upKey) {
+    this.sound.play();
     //activate directional arrows
     this.flagsActive = true;
     //store change in X and Y relative to the 'grid'
     this.deltaY += -this.distance;
   }
   else if (keyCode === this.downKey) {
+    this.sound.play();
     this.flagsActive = true;
     this.deltaY += this.distance;
   }else if (keyCode === this.leftKey){
+    this.sound.play();
     this.flagsActive = true;
     this.deltaX += -this.distance;
   }else if (keyCode === this.rightKey){
+    this.sound.play();
     this.flagsActive = true;
     this.deltaX += this.distance;
   }

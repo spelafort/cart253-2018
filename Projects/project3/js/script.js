@@ -4,6 +4,9 @@
 //dodge enemies, remember the timing, remember the color of the tile you're on, and
 //balance the twitchiness of realtime (color wheel and countdown) with the planning And
 //tension of a turn-based game. Made using p5.js and p5.play libraries (latter mostly to get sprite animation working)
+// [the inspiration for JITTERBUG came from a menu I made for a fake game, available here:]
+// [https://spelafort.itch.io/jitterbug]
+
 
 //distance between points
 var pointDistance = 50;
@@ -60,14 +63,27 @@ var gameLose = false;
 
 //font variables
 var josefin;
+//sounds
+var music;
+var move1;
+var move2;
+var winSound;
+var loseSound;
+var wasd;
+var clickDefault
+var clickColor;
 
 function preload() {
+  //preload fonts and sounds
   jose = loadFont("assets/fonts/jose.ttf");
   music = new Audio("assets/sounds/Minnie.m4a");
   move1 = new Audio("assets/sounds/DM-CGS-46 copy.wav");
   move2 = new Audio("assets/sounds/DM-CGS-47 copy.wav");
   winSound = new Audio("assets/sounds/win.wav");
   loseSound = new Audio("assets/sounds/lose.wav");
+  wasd = new Audio("assets/sounds/DM-CGS-21 copy.wav");
+  clickWheel = new Audio("assets/sounds/DM-CGS-22 copy.wav");
+  clickElsewhere = new Audio("assets/sounds/DM-CGS-22 copy.wav");
 }
 
 function setup() {
@@ -106,7 +122,7 @@ function setup() {
   winTileY = constrain(winTileY,pointDistance,height-pointDistance);
 
   //spawn a player object that will move through grids
-  player = new Player(startX,startY,pointDistance,83,87,65,68);
+  player = new Player(startX,startY,pointDistance,83,87,65,68,wasd);
   player.playerColorCurrent = player.playerColorDefault;
   //player sprite with animation using p5.play Library; assign all of this stuff to player object
   playerSprite = createSprite(player.x,player.y,pointDistance,pointDistance);
@@ -143,6 +159,7 @@ function setup() {
 }
 
 function draw() {
+  player.nowGo = true;
   if(titleScreen === true){
     // Prepare our typography and type title page
     //also describe how to play the damn thing
@@ -158,7 +175,7 @@ function draw() {
     textSize(20);
     text("You are a bug racing towards home; you move after _10_ seconds, your enemies after _5_ seconds", width/2,250);
     text("You must concentrate to change your color and match your tile to throw them off", width/2,275);
-      text("And careful: you can't move once you've changed colors-- click on white to reset", width/2,385);
+      text("And careful: you can't move once you've changed colors-- click on white to reset!", width/2,385);
     text("[[WASD to choose a direction, mouse to click the colorwheel]]", width/2,333);
     text("Music_by_Eric_Schafenacker", width/2,height-100);
     fill(255,0,0);
@@ -287,8 +304,12 @@ function draw() {
 
     //change color if player clicks on the color wheel
     if(mouseIsPressed && mouseX >= width-pointDistance*numberReservedColumns){
+      clickWheel.play();
       clickedColor = get(mouseX,mouseY);
       player.playerColorCurrent = clickedColor;
+
+    }else if (mouseIsPressed){
+      clickElsewhere.play();
     }
 
     //draw sprites last
@@ -323,7 +344,7 @@ function draw() {
     textAlign(CENTER,TOP);
     noStroke();
     fill(255,255,255);
-    textSize(66);
+    textSize(30);
     text("YOU WIN! PRESS ENTER TO RESTART.",width/2,height/5);
     drawSprites();
     if (keyCode === ENTER){
@@ -343,7 +364,7 @@ function draw() {
     textAlign(CENTER,TOP);
     noStroke();
     fill(255,255,255);
-    textSize(66);
+    textSize(30);
     text("GAME OVER. PRESS ENTER TO RESTART.",width/2,height/5);
 
     if (keyCode === ENTER){

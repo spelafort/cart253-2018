@@ -1,13 +1,16 @@
 //ColorWheel objects
 
 // Sets the properties with the provided arguments or defaults
-function ColorWheel(x,y,w,h,colorArray) {
+function ColorWheel(x,y,w,h,colorArray,clickDefault,clickColor) {
   this.colorArray = colorArray;
   this.x = x;
   this.y = y;
   this.w = w;
   this.h = h;
   this.velocity = pointDistance/15;
+  //sounds
+  this.clickDefault = clickDefault;
+  this.clickColor = clickColor;
 }
 
 //take player input when clicked
@@ -29,12 +32,11 @@ ColorWheel.prototype.drawWheel = function(timer,pointDistance,numberReservedColu
   //shout out to Pippin for doing this mathy math
   noFill();
   strokeCap(SQUARE);
-    for (var i = 0; i < this.colorArray.length; i++){
-      stroke(this.colorArray[i]);
-      strokeWeight(60);
-
-        arc(this.x,this.y,this.w,this.h,map(this.y,0,height,1,2)*i*TWO_PI/this.colorArray.length,(map(this.y,0,height,1,2)*i+1)*TWO_PI/this.colorArray.length);
-    }
+  for (var i = 0; i < this.colorArray.length; i++){
+    stroke(this.colorArray[i]);
+    strokeWeight(60);
+    arc(this.x,this.y,this.w,this.h,map(this.y,0,height,1,2)*i*TWO_PI/this.colorArray.length,(map(this.y,0,height,1,2)*i+1)*TWO_PI/this.colorArray.length);
+  }
 
 
 }
