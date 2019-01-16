@@ -1,19 +1,16 @@
 //ColorWheel objects
 
 // Sets the properties with the provided arguments or defaults
-function ColorWheel(x,y,w,h,colorArray,clickDefault,clickColor) {
+function ColorWheel(x,y,w,h,colorArray) {
   this.colorArray = colorArray;
   this.x = x;
   this.y = y;
   this.w = w;
   this.h = h;
   this.velocity = pointDistance/15;
-  //sounds
-  this.clickDefault = clickDefault;
-  this.clickColor = clickColor;
 }
 
-//take player input when clicked
+//draw wheel
 ColorWheel.prototype.drawWheel = function(timer,pointDistance,numberReservedColumns) {
   //make it move, because I'm a jerk
   if(this.y >= height - this.h-pointDistance || this.y <= this.h+pointDistance){

@@ -84,9 +84,11 @@ function preload() {
   wasd = new Audio("assets/sounds/DM-CGS-21 copy.wav");
   clickWheel = new Audio("assets/sounds/DM-CGS-22 copy.wav");
   clickElsewhere = new Audio("assets/sounds/DM-CGS-22 copy.wav");
+
 }
 
 function setup() {
+
   tilesTotal = Math.floor(width/pointDistance)+ Math.floor(height/pointDistance);
   textFont('jose');
   enemiesTotal = Math.floor(random(1,6));
@@ -159,6 +161,7 @@ function setup() {
 }
 
 function draw() {
+
   if(titleScreen === true){
     // Prepare our typography and type title page
     //also describe how to play the damn thing
@@ -170,7 +173,7 @@ function draw() {
     text("JITTERBUG",width/2,height/6);
     fill(255);
     textSize(35);
-    text("(turn based and wheel time)", width/2, 175); 
+    text("(turn based and wheel time)", width/2, 175);
     textSize(20);
     text("You are a bug racing towards home; you move after _10_ seconds, your enemies after _5_ seconds", width/2,250);
     text("You must concentrate to change your color and match your tile to throw them off", width/2,275);
@@ -372,6 +375,7 @@ function draw() {
 
     }
     drawSprites();
+
   }
 }
 
